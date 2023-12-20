@@ -1,0 +1,19 @@
+{
+  "name": "picsworld-team-backend",
+  "version": "1.0.0",
+  "description": "water-tracker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/VladM4526/PicsWorld-Team-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/VladM4526/PicsWorld-Team-backend/issues"
+  },
+  "homepage": "https://github.com/VladM4526/PicsWorld-Team-backend#readme"
+}
