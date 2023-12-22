@@ -1,4 +1,4 @@
-const HttpErrorMessages = require("../../const/httpErrorMessages");   
+import HttpErrorMessages from "../../const/httpErrorMessages";   
 
 class HttpError extends Error {
   constructor(
@@ -10,4 +10,4 @@ class HttpError extends Error {
   }
 }
 
-module.exports = {HttpError};
+export default HttpError ;
