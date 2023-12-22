@@ -1,14 +1,10 @@
-const { Schema, model } = require('mongoose');
-const {handleMongooseError, preUpdate} = require('../utils/helpers/handleMongooseError');
+import { Schema, model } from 'mongoose';
+import {handleMongooseError, preUpdate} from '../utils/helpers/handleMongooseError';
 // const {createContactValidationSchema,
 //       updateContactValidationSchema,
 //       contactFavoriteSchema }= require('../utils/validation/contactValidationSchemas')
 
-const waterSchema = new Schema({
-    waterRate: {
-      type: Number,
-      required: [true, 'Set rate'],
-    },
+const waterNotesSchema = new Schema({
     date: {
       type: Date,
       required: [true, 'Set date'],
@@ -25,11 +21,11 @@ const waterSchema = new Schema({
 }, 
 { versionKey: false, timestamps: true })
 
-waterSchema.post('save', handleMongooseError );
-waterSchema.pre("findOneAndUpdate", preUpdate);
-waterSchema.post('findOneAndUpdate', handleMongooseError );
+waterNotesSchema.post('save', handleMongooseError );
+waterNotesSchema.pre("findOneAndUpdate", preUpdate);
+waterNotesSchema.post('findOneAndUpdate', handleMongooseError );
 
-const Water = model('water', waterSchema);
+const Water = model('water', waterNotesSchema);
 
 // const schemas =  {
 //     createContactValidationSchema,
@@ -37,7 +33,6 @@ const Water = model('water', waterSchema);
 //     contactFavoriteSchema,
 // }
 
-module.exports = { 
-    Water,
-    // schemas
+export default {Water, 
+  // schemas 
 };

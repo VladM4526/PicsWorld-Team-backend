@@ -1,6 +1,5 @@
-const { Schema, model } = require('mongoose');
-
-const {handleMongooseError, preUpdate} = require('../utils/helpers/handleMongooseError');
+import { Schema, model } from 'mongoose';
+import {handleMongooseError, preUpdate} from '../utils/helpers/handleMongooseError'
 
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -27,6 +26,13 @@ const userSchema = new Schema({
           enum: ["mail", "femail"],
         //   default: "mail"
         },
+        waterRate: {
+          type: Number,
+          required: [true, 'Set rate'],
+          min: 0,
+          max: 15000,
+          default: 0,
+        },
         verify: {
           type: Boolean,
           default: false,
@@ -47,4 +53,4 @@ userSchema.post('findOneAndUpdate', handleMongooseError );
 
 const User = model('user', userSchema);
 
-module.exports = User
+export default User

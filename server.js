@@ -2,7 +2,7 @@
 
 // import app from './app.js';
 
-// const { PORT } = process.env;
+// const { PORT, DB_HOST } = process.env;
 
 // mongoose
 // 	.connect(DB_HOST)

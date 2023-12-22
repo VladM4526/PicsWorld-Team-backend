@@ -12,4 +12,4 @@ const errorMessages = {
     default: "Something went wrong, please try again later...",
   };
   
-  module.exports = errorMessages;
+  export default errorMessages;

@@ -9,7 +9,7 @@ const handleMongooseError = (error, data, next) => {
     next();
 }
   
-  module.exports = {
+  export default {
     handleMongooseError,
     preUpdate
   };
