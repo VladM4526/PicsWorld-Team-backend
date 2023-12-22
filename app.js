@@ -1,12 +1,35 @@
 import express from 'express';
 
+import cors from 'cors';
+
+import morgan from 'morgan';
+
+import swaggerui from 'swagger-ui-express';
+
+import swaggerJSDoc from 'swagger-jsdoc';
+
+const options = {
+	definition: {
+		openapi: '3.0.0',
+		info: {
+			title: 'PicsWorldProject API',
+			version: '1.0.0',
+			description: 'Documentation for PicsWorldProject',
+		},
+		servers: [
+			{
+				url: 'http://localhost:3001',
+			},
+		],
+	},
+	apis: ['./routes/*.js'],
+};
+
+const specs = swaggerJSDoc(options);
+
 const app = express();
 
-import swaggerUi from 'swagger-ui-express';
-
-import swaggerDocument from './swagger.json';
-
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerui.serve, swaggerui.setup(specs));
 
 app.get('/', (request, response) => {
 	response.send(0);
