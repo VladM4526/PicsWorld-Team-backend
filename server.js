@@ -1,17 +1,17 @@
-// import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 
-// import app from './app.js';
+import app from './app.js';
 
-// const { PORT, DB_HOST } = process.env;
+const { PORT, DB_HOST } = process.env;
 
-// mongoose
-// 	.connect(DB_HOST)
-// 	.then(() => {
-// 		app.listen(PORT, () => {
-// 			console.log(`Server running. Use our API on port: ${PORT}`);
-// 		});
-// 	})
-// 	.catch((error) => {
-// 		console.log(error.message);
-// 		process.exit(1);
-// 	});
+mongoose
+	.connect(DB_HOST)
+	.then(() => {
+		app.listen(PORT, () => {
+			console.log(`Server running. Use our API on port: ${PORT}`);
+		});
+	})
+	.catch((error) => {
+		console.log(error.message);
+		process.exit(1);
+	});
