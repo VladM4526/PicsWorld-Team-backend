@@ -20,6 +20,4 @@ const multerConfig = multer.diskStorage({
 	},
 });
 
-const uploadTmp = multer({ storage: multerConfig });
-
-export default uploadTmp;
+export const uploadTmp = multer({ storage: multerConfig });
