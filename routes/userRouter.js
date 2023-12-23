@@ -4,6 +4,8 @@ import usersController from '../controllers/usersController.js';
 
 import authenticate from '../middlewars/authenticate.js';
 
+import { uploadTmp } from '../middlewars/uploadTmp.js';
+
 const usersRouter = express.Router();
 
 usersRouter.post('/signup', usersController.signup);

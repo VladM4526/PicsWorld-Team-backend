@@ -5,9 +5,9 @@ import dotenv from 'dotenv';
 
 import User from '../models/users.js';
 
-import HttpError from '../helpers/HttpError.js';
+import HttpError from '../utils/helpers/httpErrors.js';
 
-import ctrlWrapper from '../Wrapper/ctrlWrapper.js';
+import ctrlWrapper from '../utils/decorators/ctrlWrapper.js';
 
 dotenv.config();
 
