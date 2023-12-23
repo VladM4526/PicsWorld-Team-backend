@@ -11,9 +11,9 @@ import jwt from 'jsonwebtoken';
 import fs from 'fs/promises';
 import path from 'path';
 
-import HttpError from '../helpers/HttpError.js';
+import HttpError from '../utils/helpers/httpErrors.js';
 
-import ctrlWrapper from '../wrapper/ctrlWrapper.js';
+import ctrlWrapper from '../utils/decorators/ctrlWrapper.js';
 
 dotenv.config();
 
