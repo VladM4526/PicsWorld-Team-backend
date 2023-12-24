@@ -11,6 +11,8 @@ import jwt from 'jsonwebtoken';
 import fs from 'fs/promises';
 import path from 'path';
 
+import generateAvatarUrl from '../utils/helpers/gravatar.js';
+
 import HttpError from '../utils/helpers/httpErrors.js';
 
 import ctrlWrapper from '../utils/decorators/ctrlWrapper.js';
@@ -18,6 +20,8 @@ import ctrlWrapper from '../utils/decorators/ctrlWrapper.js';
 dotenv.config();
 
 const { JWT_SECRET } = process.env;
+
+const avatarsPath = path.resolve('public', 'avatars');
 
 const signup = async (req, res) => {
 	const { email, password } = req.body;
@@ -70,9 +74,9 @@ const signin = async (req, res) => {
 		throw new HttpError(401, 'email or password is wrong');
 	}
 
-	if (!user.verify) {
-		throw new HttpError(401, 'email not verify');
-	}
+	// if (!user.verify) {
+	// 	throw new HttpError(401, 'email not verify');
+	// }
 
 	const passwordCompare = await bcrypt.compare(password, user.password);
 	if (!passwordCompare) {
