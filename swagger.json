@@ -1,0 +1,418 @@
+{
+	"openapi": "3.0.1",
+	"info": {
+		"title": "PicsWorldProject API",
+		"version": "1.0.0",
+		"description": "Documentation for PicsWorldProject"
+	},
+	"consumes": ["application/json", "multipart/form-data"],
+	"produces": ["application/json", "multipart/form-data"],
+	"servers": [
+		{
+			"url": "http://localhost:3001"
+		}
+	],
+	"tags": [
+		{
+			"name": "Users",
+			"description": "Users endpoints"
+		},
+		{
+			"name": "Water",
+			"description": "Water endpoints"
+		}
+	],
+
+	"paths": {
+		"/users/signup": {
+			"post": {
+				"tags": ["Users"],
+				"summary": "Users registration",
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+				"requestBody": {
+					"description": "Registration`s object",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SignupRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "New User Registered",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SignupResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Validation error",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BadRequestResponse"
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "User with such email already exists",
+						"content": {}
+					}
+				}
+			}
+		},
+		"/users/signin": {
+			"post": {
+				"tags": ["Users"],
+				"summary": "Users login",
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+				"requestBody": {
+					"description": "Login object",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/SigninRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Created session for existing user",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SigninResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Validation error",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BadRequestResponse"
+								}
+							}
+						}
+					},
+					"403": {
+						"description": "Provided password is incorrect",
+						"content": {}
+					},
+					"404": {
+						"description": "User with such email not found",
+						"content": {}
+					}
+				}
+			}
+		},
+		"/users/current": {
+			"get": {
+				"tags": ["Users"],
+				"summary": "Info about current user",
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+				"requestBody": {
+					"description": "Current user object",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CurrentUserRequest"
+							}
+						}
+					}
+				},
+				"response": {
+					"200": {
+						"description": "Logged user returned",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CurrentUserResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Bearer Auth failed",
+						"content": {}
+					}
+				}
+			}
+		},
+		"/users/signout": {
+			"delete": {
+				"tags": ["Users"],
+				"summary": "Signout from account",
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+
+				"responses": {
+					"204": {
+						"description": "User signed out",
+						"content": {}
+					},
+					"401": {
+						"description": "Bearer Auth failed",
+						"content": {}
+					}
+				}
+			}
+		},
+		"/users/verify": {
+			"get": {
+				"tags": ["Users"],
+				"summary": "Users verification",
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+				"requestBody": {
+					"description": "Verification object",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/VerificationRequest"
+							}
+						}
+					}
+				},
+				"response": {
+					"201": {
+						"description": "Successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/VerificationResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
+					"409": {
+						"description": "Provided email already exists",
+						"content": {}
+					}
+				}
+			}
+		},
+
+		"/users/avatars": {
+			"patch": {
+				"tags": ["Users"],
+				"summary": "Change user`s avatar",
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+				"requestBody": {
+					"description": "Change avatar object",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RegistrationRequest"
+							}
+						}
+					}
+				},
+				"response": {
+					"201": {
+						"description": "Successful operation",
+						"content": {}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
+					"409": {
+						"description": "Provided email already exists",
+						"content": {}
+					}
+				}
+			}
+		},
+		"/users/userInfo": {
+			"patch": {
+				"tags": ["Users"],
+				"summary": "Change info about user",
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+				"requestBody": {
+					"description": "Change user info",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/RegistrationRequest"
+							}
+						}
+					}
+				},
+				"response": {
+					"201": {
+						"description": "Successful operation",
+						"content": {}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					},
+					"409": {
+						"description": "Provided email already exists",
+						"content": {}
+					}
+				}
+			}
+		}
+	},
+
+	"components": {
+		"schemas": {
+			"SignupRequest": {
+				"type": "object",
+				"required": ["name", "email", "password"],
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "User`s name",
+						"maxLength": "32"
+					},
+					"email": {
+						"type": "string",
+						"description": "User`s email",
+						"format": "email"
+					},
+					"password": {
+						"type": "string",
+						"description": "User`s password",
+						"example": "abcde123",
+						"minLength": "8",
+						"maxLength": "64"
+					}
+				}
+			},
+			"SignupResponse": {},
+			"securitySchema": {
+				"Bearer": {
+					"type": "http",
+					"schema": "bearer",
+					"bearerFormat": "JWT"
+				}
+			},
+			"SigninRequest": {
+				"type": "object",
+				"required": ["email", "password"],
+				"properties": {
+					"email": {
+						"type": "string",
+						"description": "User`s email",
+						"format": "email"
+					},
+					"password": {
+						"type": "string",
+						"description": "User`s password",
+						"example": "abcde123",
+						"minLength": "8",
+						"maxLength": "64"
+					}
+				}
+			},
+			"SigninResponse": {
+				"type": "object",
+				"required": ["user", "token"],
+				"properties": {
+					"user": {
+						"$ref": "#/components/schemas/SigninRequest"
+					},
+					"token": {
+						"type": "string",
+						"example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWQiOiIyOWI4ZmZmNS0xN2NjLTQ5NTYtOTViZC1jN2U3N2FkZDEwOWEiLCJpYXQiOjE2ODE4OTM3MzEsImV4cCI6MTAwMDAwMDE2ODE4OTM3MzJ9.hQpNKIj4SR7Gm9waUMn7hzwKQyqwKrniL_qSW"
+					}
+				}
+			},
+			"BadRequestResponse": {
+				"type": "object",
+
+				"properties": {
+					"status": {
+						"type": "integer",
+						"description": "error status code",
+						"example": "400"
+					},
+					"message": {
+						"type": "string",
+						"description": "error message",
+						"example": "Bad request"
+					}
+				}
+			},
+			"VerificationRequest": {
+				"type": "boolean",
+				"required": ["name", "email", "password"],
+				"properties": {
+					"name": {
+						"type": "string",
+						"description": "User`s name",
+						"maxLength": "32"
+					},
+					"email": {
+						"type": "string",
+						"description": "User`s email",
+						"format": "email"
+					},
+					"password": {
+						"type": "string",
+						"description": "User`s password",
+						"example": "abcde123",
+						"minLength": "8",
+						"maxLength": "64"
+					}
+				}
+			},
+			"VerificationResponse": {},
+			"CurrentUserRequest": {
+				"type": "object",
+				"required": ["id", "name", "email"],
+				"properties": {
+					"id": {
+						"type": "string",
+						"description": "User`s id",
+						"example": "9578a252-1d7a-4fcc-82e2-d1a528dd3d0c"
+					},
+					"name": {
+						"type": "string",
+						"description": "User`s name",
+						"maxLength": "32"
+					},
+					"email": {
+						"type": "string",
+						"description": "User`s email",
+						"format": "email"
+					},
+					"password": {
+						"type": "string",
+						"description": "User`s password",
+						"example": "abcde123",
+						"minLength": "8",
+						"maxLength": "64"
+					}
+				}
+			},
+			"CurrentUserResponse": {}
+		}
+	}
+}
