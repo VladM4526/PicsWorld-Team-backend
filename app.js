@@ -14,28 +14,44 @@ import swaggerui from 'swagger-ui-express';
 
 import swaggerJSDoc from 'swagger-jsdoc';
 
-const options = {
-	definition: {
-		openapi: '5.0.0',
-		info: {
-			title: 'PicsWorldProject API',
-			version: '1.0.0',
-			description: 'Documentation for PicsWorldProject',
-		},
-		servers: [
-			{
-				url: 'http://localhost:3001',
-			},
-		],
-	},
-	apis: ['./routes/*.js'],
-};
+import { createRequire } from 'module'; // Bring in the ability to create the 'require' method
+const require = createRequire(import.meta.url); // construct the require method
+const swaggerDocument = require('./swagger.json'); // use the require method
 
-const specs = swaggerJSDoc(options);
+// import swaggerDocument from './swagger.json' assert { type: 'json' };
+
+// const {
+// 	default: { name, version },
+// } = await import('./swagger.json', {
+// 	assert: {
+// 		type: 'json',
+// 	},
+// });
+
+// const { name, version } = swaggerDocument;
+
+// const options = {
+// 	definition: {
+// 		openapi: '3.1.0',
+// 		info: {
+// 			title: 'PicsWorldProject API',
+// 			version: '1.0.0',
+// 			description: 'Documentation for PicsWorldProject',
+// 		},
+// 		servers: [
+// 			{
+// 				url: 'http://localhost:3001',
+// 			},
+// 		],
+// 	},
+// 	apis: ['./routes/*.js'],
+// };
+
+// const specs = swaggerJSDoc(options);
 
 const app = express();
 
-app.use('/api-docs', swaggerui.serve, swaggerui.setup(specs));
+app.use('/api-docs', swaggerui.serve, swaggerui.setup(swaggerDocument));
 
 // SWAGGER
 
