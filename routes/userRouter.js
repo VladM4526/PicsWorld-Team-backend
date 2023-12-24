@@ -10,7 +10,7 @@ const usersRouter = express.Router();
 
 usersRouter.post('/signup', usersController.signup);
 
-usersRouter.get('/verify', usersController.verify);
+usersRouter.get('/verify/:verificationToken', usersController.verify);
 
 usersRouter.post('/signin', usersController.signin);
 

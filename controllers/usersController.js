@@ -21,7 +21,7 @@ dotenv.config();
 
 const { JWT_SECRET } = process.env;
 
-const avatarsPath = path.resolve('public', 'avatars');
+const avatarsPath = path.resolve('../','public', 'avatars');
 
 const signup = async (req, res) => {
 	const { email, password, name } = req.body;
@@ -62,10 +62,7 @@ const verify = async (req, res) => {
 		throw new HttpError(404, 'User not found');
 	}
 
-	await User.findOneAndUpdate(user._id, {
-		verify: true,
-		verificationToken: '',
-	});
+	await User.updateOne({ verificationToken }, { verified: true, verificationToken: null });
 
 	res.json({ message: 'Verification successful' });
 };
@@ -109,17 +106,36 @@ const getCurrent = async (req, res) => {
 };
 
 const updateUserInfo = async (req, res) => {
-	const { userId } = req.params;
-	const { _id: owner } = req.user;
-	const { error } = contactUpdateById.validate(req.body);
-	const result = await Contact.findOneAndUpdate(
-		{ _id: userId, owner },
-		req.body
-	);
-	if (error) {
-		throw new HttpError(404, `Contact with id=${userId} not found`);
+	const { name, email, gender, oldPassword, newPassword, confirmPassword} = req.body;
+    const userId = req.user._id;
+
+    const existingUser = await User.findById(userId);
+
+    if (!existingUser) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+	if (newPassword){
+		const isPasswordValid = await bcrypt.compare(oldPassword, existingUser.password);
+		if (!isPasswordValid) {
+			throw new HttpError(401, 'Invalid old password');
+		}
+
+		if (newPassword !== confirmPassword) {
+			throw new HttpError(400,'New password and confirmation do not match');
+		}
+		const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+        existingUser.password = hashedNewPassword;
 	}
-	res.json(result);
+
+    if (name) {existingUser.name = name};
+    if (email) {existingUser.email = email};
+    if (gender) {existingUser.gender = gender};
+
+    const updatedUser = await existingUser.save();
+
+    res.json(updatedUser);
+
 };
 
 const updateAvatar = async (req, res) => {
@@ -143,7 +159,11 @@ const updateAvatar = async (req, res) => {
 
 const signout = async (req, res) => {
 	const { _id } = req.user;
-	await User.findByIdAndUpdate(_id, { token: '' });
+	const result = await User.findByIdAndUpdate(_id, { token: '' });
+  
+    if (!result) {
+      throw new HttpError(404, 'Not found');
+    }
 
 	res.json({
 		message: 'Signout success',
