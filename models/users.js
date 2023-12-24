@@ -5,8 +5,6 @@ import {
 	preUpdate,
 } from '../utils/helpers/handleMongooseError.js';
 
-// import handleMongooseError from '../utils/helpers/handleMongooseError.js';
-
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 const userSchema = new Schema(
@@ -20,7 +18,7 @@ const userSchema = new Schema(
 			type: String,
 			match: emailRegexp,
 			required: [true, 'Email is required'],
-			unique: true,
+			// unique: true,
 		},
 		password: {
 			type: String,
@@ -58,6 +56,6 @@ userSchema.post('save', handleMongooseError);
 userSchema.pre('findOneAndUpdate', preUpdate);
 userSchema.post('findOneAndUpdate', handleMongooseError);
 
-const User = model('user', userSchema);
+const User = model('user', userSchema, 'users');
 
 export default User;
