@@ -6,7 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 
 const __dirname = path.dirname(__filename);
 
-const destination = path.join(__dirname, '../', 'tmp');
+const destination = path.join(__dirname, '../', 'temp');
 
 const multerConfig = multer.diskStorage({
 	destination: (req, file, cb) => {
