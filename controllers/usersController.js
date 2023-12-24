@@ -24,7 +24,7 @@ const { JWT_SECRET } = process.env;
 const avatarsPath = path.resolve('public', 'avatars');
 
 const signup = async (req, res) => {
-	const { email, password } = req.body;
+	const { email, password, name } = req.body;
 
 	const user = await User.findOne({ email });
 	if (user) {
@@ -40,6 +40,9 @@ const signup = async (req, res) => {
 
 	const newUser = await User.create({
 		...req.body,
+		name:name,
+		email: email,
+		
 		password: hashPassword,
 		verificationToken,
 		avatarUrl: avatar,

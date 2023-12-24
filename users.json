@@ -1,0 +1,9 @@
+[
+    {
+"_id":{"$oid":"658768db48b7b8f956879690"},
+"name":"Anna","email":"eka1027@hupoi.com",
+"password":"$2a$10$YDYKZuM905op8eyqlpY2YedUWwAexY.v7Lj1aJGNcVEc64SSXYl7e",
+"waterRate":{"$numberInt":"0"},"verify":false,
+"verificationToken":"LAnp8fijResNhbWTVFkqj",
+"token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb250YWN0SWQiOiI2NTg3NjhkYjQ4YjdiOGY5NTY4Nzk2OTAiLCJpYXQiOjE3MDMzNzMyOTAsImV4cCI6MTcwMzQ1NjA5MH0.jGsjnmr_77K4DSyTRAiPoZPKnkRB5U1Jtg08TbYgDWI"
+}]
