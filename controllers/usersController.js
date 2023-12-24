@@ -10,7 +10,7 @@ import jwt from 'jsonwebtoken';
 
 import fs from 'fs/promises';
 import path from 'path';
-
+import { fileURLToPath } from 'url';
 import generateAvatarUrl from '../utils/helpers/gravatar.js';
 
 import HttpError from '../utils/helpers/httpErrors.js';
@@ -18,10 +18,11 @@ import HttpError from '../utils/helpers/httpErrors.js';
 import ctrlWrapper from '../utils/decorators/ctrlWrapper.js';
 
 dotenv.config();
-
 const { JWT_SECRET } = process.env;
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
-const avatarsPath = path.resolve('../','public', 'avatars');
+const avatarsPath = path.join(__dirname, '../','public', 'avatars');
 
 const signup = async (req, res) => {
 	const { email, password, name } = req.body;
@@ -42,10 +43,9 @@ const signup = async (req, res) => {
 		...req.body,
 		name:name,
 		email: email,
-		
 		password: hashPassword,
 		verificationToken,
-		avatarUrl: avatar,
+		avatarURL: avatar,
 	});
 
 	res.status(201).json({
@@ -145,16 +145,15 @@ const updateAvatar = async (req, res) => {
 
 	const newPath = path.join(avatarsPath, filename);
 
-	(await Jimp.read(oldPath)).resize(250, 250).write(oldPath);
+	const img = await Jimp.read(oldPath);
+	await img.resize(250, 250).writeAsync(oldPath);
 
 	await fs.rename(oldPath, newPath);
-	const avatarUrl = path.join('avatars', filename);
+	const avatarURL = path.join('avatars', filename);
 
-	await User.findByIdAndUpdate(_id, { avatarUrl }, { new: true });
-	if (error) {
-		throw new HttpError(401, `Not authorized`);
-	}
-	res.status(200).json({ avatarUrl });
+	await User.findByIdAndUpdate(_id, { avatarURL }, { new: true });
+
+	res.status(200).json({ avatarURL });
 };
 
 const signout = async (req, res) => {
