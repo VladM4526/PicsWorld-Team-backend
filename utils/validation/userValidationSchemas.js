@@ -3,6 +3,8 @@ import Joi from 'joi';
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 const registerSchema = Joi.object({
+	name: Joi.string().required(),
+
 	email: Joi.string().required().pattern(new RegExp(emailRegexp)).messages({
 		'any.required': `Missing required email field`,
 	}),
