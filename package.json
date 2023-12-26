@@ -23,6 +23,7 @@
 	},
 	"homepage": "https://github.com/VladM4526/PicsWorld-Team-backend#readme",
 	"dependencies": {
+		"@joi/date": "^2.1.0",
 		"bcryptjs": "^2.4.3",
 		"cors": "^2.8.5",
 		"cross-env": "^7.0.3",

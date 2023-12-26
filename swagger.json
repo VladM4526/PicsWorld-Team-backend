@@ -280,6 +280,129 @@
 					}
 				}
 			}
+		},
+		"/water/create": {
+			"post": {
+				"tags": ["Water"],
+				"summary": "Create water note",
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+
+				"requestBody": {
+					"description": "Create water note object",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/CreateWaterNoteRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Water note was successful created",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CreateWaterNoteResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Validation error",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BadRequestResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/water/update": {
+			"patch": {
+				"tags": ["Water"],
+				"summary": "Update water note",
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+
+				"requestBody": {
+					"description": "Update water note object",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/UpdateWaterNoteRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Water note update",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UpdateWaterNoteResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Validation error",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BadRequestResponse"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"/water/delete": {
+			"delete": {
+				"tags": ["Water"],
+				"summary": "Delete water note",
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+
+				"requestBody": {
+					"description": "Delete water note object",
+					"required": true
+				},
+				"responses": {
+					"201": {
+						"description": "Water note delete",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/SignupResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Water note was deleted",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/BadRequestResponse"
+								}
+							}
+						}
+					},
+					"409": {
+						"description": "User with such email already exists",
+						"content": {}
+					}
+				}
+			}
 		}
 	},
 
@@ -427,7 +550,11 @@
 						"description": "User`s avatar"
 					}
 				}
-			}
+			},
+			"CreateWaterNoteRequest": {},
+			"CreateWaterNoteResponse": {},
+			"UpdateWaterNoteRequest": {},
+			"UpdateWaterNoteResponse": {}
 		},
 		"securitySchemes": {
 			"bearer": {
