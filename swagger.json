@@ -9,7 +9,7 @@
 	"produces": ["application/json", "multipart/form-data"],
 	"servers": [
 		{
-			"url": "https://trackerwaterapp.onrender.com"
+			"url": "http://localhost:3001"
 		}
 	],
 	"tags": [
