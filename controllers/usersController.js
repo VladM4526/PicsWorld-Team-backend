@@ -25,11 +25,15 @@ const __dirname = path.dirname(__filename);
 const avatarsPath = path.join(__dirname, '../', 'public', 'avatars');
 
 const signup = async (req, res) => {
-	const { email, password, name } = req.body;
+	const { email, password, repeatPassword} = req.body;
 
 	const user = await User.findOne({ email });
 	if (user) {
 		throw new HttpError(409, 'User with such email already exists');
+	}
+
+	if (password !== repeatPassword) {
+		throw new HttpError(400, 'Repeat password and password do not match');
 	}
 
 	const hashPassword = await bcrypt.hash(password, 10);
@@ -41,7 +45,6 @@ const signup = async (req, res) => {
 
 	const newUser = await User.create({
 		...req.body,
-		name: name,
 		email: email,
 		password: hashPassword,
 		verificationToken,
@@ -103,8 +106,8 @@ const signin = async (req, res) => {
 const getCurrent = async (req, res) => {
 	const { email } = req.user;
 	res.json({
-		// _id,
-		// name: UserName,
+		_id,
+		name: UserName,
 		email,
 	});
 };
