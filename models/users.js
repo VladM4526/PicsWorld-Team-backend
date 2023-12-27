@@ -9,11 +9,11 @@ const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 const userSchema = new Schema(
   {
-    // name: {
-    // 	type: String,
-    // 	required: [true, 'Name is required'],
-    // 	maxLength: 32,
-    // },
+    name: {
+      type: String,
+      // required: [true, 'Name is required'],
+      maxLength: 32,
+    },
     email: {
       type: String,
       match: emailRegexp,
