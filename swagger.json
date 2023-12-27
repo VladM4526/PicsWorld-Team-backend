@@ -190,7 +190,7 @@
 			}
 		},
 
-		"/users/avatars": {
+		"/users/avatars/{userId}": {
 			"patch": {
 				"tags": ["Users"],
 				"summary": "Change user`s avatar",
@@ -198,8 +198,16 @@
 					{
 						"in": "formData",
 						"name": "avatar",
+						"required": "true",
 						"type": "file",
 						"description": "Avatar to upload"
+					},
+					{
+						"in": "path",
+						"name": "userId",
+						"required": "true",
+						"type": "string",
+						"description": "userId"
 					}
 				],
 				"security": [{ "bearer": [] }],
@@ -238,11 +246,18 @@
 				}
 			}
 		},
-		"/users/userInfo": {
+		"/users/userInfo/{userId}": {
 			"patch": {
 				"tags": ["Users"],
 				"summary": "Change info about user",
 				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": "true",
+						"type": "string",
+						"description": "userId"
+					},
 					{
 						"name": "changeName",
 						"in": "path",
@@ -314,11 +329,19 @@
 				}
 			}
 		},
-		"/users/waterRate": {
+		"/users/waterRate/{userId}": {
 			"put": {
 				"tags": ["Users"],
 				"summary": "Put water rate",
-				"parameters": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "userId",
+						"required": "true",
+						"type": "string",
+						"description": "userId"
+					}
+				],
 				"security": [{ "Bearer": [] }],
 				"requestBody": {
 					"description": "Change user info",
