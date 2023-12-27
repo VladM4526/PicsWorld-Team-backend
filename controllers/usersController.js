@@ -113,6 +113,22 @@ const getCurrent = async (req, res) => {
 	});
 };
 
+const waterRate = async (req, res) => {
+	const { waterRate } = req.body;
+	const userId = req.user._id;
+
+	const result = await User.findOneAndUpdate(
+		{ _id: userId, waterRate },
+		req.body
+	);
+
+	if (error) {
+		return res.status(404).json({ message: 'User not found' });
+	}
+
+	res.json(result);
+};
+
 const updateUserInfo = async (req, res) => {
 	const { name, email, gender, oldPassword, newPassword, confirmPassword } =
 		req.body;
@@ -191,6 +207,7 @@ export default {
 	verify: ctrlWrapper(verify),
 	signin: ctrlWrapper(signin),
 	getCurrent: ctrlWrapper(getCurrent),
+	waterRate: ctrlWrapper(waterRate),
 	updateUserInfo: ctrlWrapper(updateUserInfo),
 	updateAvatar: ctrlWrapper(updateAvatar),
 	signout: ctrlWrapper(signout),
