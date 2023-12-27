@@ -109,6 +109,7 @@ const getCurrent = async (req, res) => {
 		_id,
 		name: UserName,
 		email,
+		waterRate,
 	});
 };
 

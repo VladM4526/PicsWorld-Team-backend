@@ -9,7 +9,7 @@
 	"produces": ["application/json", "multipart/form-data"],
 	"servers": [
 		{
-			"url": "http://localhost:3001"
+			"url": "https://trackerwaterapp.onrender.com/api-docs/"
 		}
 	],
 	"tags": [
@@ -122,7 +122,7 @@
 			"get": {
 				"tags": ["Users"],
 				"summary": "Info about current user",
-				"parameters": [],
+
 				"security": [{ "Bearer": [] }],
 
 				"responses": {
@@ -176,17 +176,7 @@
 					}
 				],
 				"security": [{ "Bearer": [] }],
-				"requestBody": {
-					"description": "Verification object",
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/VerificationRequest"
-							}
-						}
-					}
-				},
+
 				"responses": {
 					"200": {
 						"description": "Verification successful",
@@ -252,7 +242,44 @@
 			"patch": {
 				"tags": ["Users"],
 				"summary": "Change info about user",
-				"parameters": [],
+				"parameters": [
+					{
+						"name": "changeName",
+						"in": "path",
+						"type": "string",
+						"description": "To change a user name"
+					},
+					{
+						"name": "changeEmail",
+						"in": "path",
+						"type": "string",
+						"description": "To change a user email"
+					},
+					{
+						"name": "changeGender",
+						"in": "path",
+						"type": "string",
+						"description": "To change a user gender"
+					},
+					{
+						"name": "currentPassword",
+						"in": "path",
+						"type": "string",
+						"description": "Current user password. Must be used together with 'newPassword' and 'confirmPassword'"
+					},
+					{
+						"name": "newPassword",
+						"in": "path",
+						"type": "string",
+						"description": "New user password. Must be used together with 'currentPassword' and 'confirmPassword'"
+					},
+					{
+						"name": "confirmPassword",
+						"in": "path",
+						"type": "string",
+						"description": "To confirm a user new password. Must be used together with 'currentPassword' and 'newPassword'"
+					}
+				],
 				"security": [{ "Bearer": [] }],
 				"requestBody": {
 					"description": "Change user info",
@@ -260,7 +287,7 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"$ref": "#/components/schemas/RegistrationRequest"
+								"$ref": "#/components/schemas/UserInfoRequest"
 							}
 						}
 					}
@@ -268,7 +295,13 @@
 				"responses": {
 					"201": {
 						"description": "Successful operation",
-						"content": {}
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/UserInfoResponse"
+								}
+							}
+						}
 					},
 					"400": {
 						"description": "Bad request (invalid request body)",
@@ -512,7 +545,7 @@
 			},
 			"CurrentUserResponse": {
 				"type": "object",
-				"required": ["id", "name", "email"],
+				"required": ["id", "name", "email", "waterRate"],
 				"properties": {
 					"id": {
 						"type": "string",
@@ -528,16 +561,40 @@
 						"type": "string",
 						"description": "User`s email",
 						"format": "email"
+					},
+					"waterRate": {
+						"type": "integer",
+						"description": "User`s water rate"
 					}
 				}
 			},
 			"ChangeAvatarRequest": {
 				"type": "object",
-				"required": ["avatar"],
+
 				"properties": {
-					"avatar": {
-						"type": "file",
-						"description": "User`s avatar"
+					"name": {
+						"type": "object",
+						"description": "User`s name"
+					},
+					"email": {
+						"type": "object",
+						"description": "User`s email"
+					},
+					"gender": {
+						"type": "object",
+						"description": "User`s gender"
+					},
+					"currentPassword": {
+						"type": "object",
+						"description": "User`s current password"
+					},
+					"newPassword": {
+						"type": "object",
+						"description": "User`s new password"
+					},
+					"confirmNewPassword": {
+						"type": "object",
+						"description": "User`s new password"
 					}
 				}
 			},
@@ -551,6 +608,17 @@
 					}
 				}
 			},
+			"UserInfoRequest": {
+				"type": "object",
+				"required": ["avatar"],
+				"properties": {
+					"avatar": {
+						"type": "file",
+						"description": "User`s avatar"
+					}
+				}
+			},
+			"UserInfoResponse": {},
 			"CreateWaterNoteRequest": {},
 			"CreateWaterNoteResponse": {},
 			"UpdateWaterNoteRequest": {},
