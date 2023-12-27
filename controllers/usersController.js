@@ -103,9 +103,10 @@ const signin = async (req, res) => {
 const getCurrent = async (req, res) => {
 	const { email } = req.user;
 	res.json({
-		// _id,
-		// name: UserName,
+		_id,
+		name: UserName,
 		email,
+		waterRate,
 	});
 };
 
