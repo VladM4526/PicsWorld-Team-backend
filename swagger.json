@@ -314,6 +314,41 @@
 				}
 			}
 		},
+		"/users/waterRate": {
+			"put": {
+				"tags": ["Users"],
+				"summary": "Put water rate",
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
+				"requestBody": {
+					"description": "Change user info",
+					"required": true,
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/WaterRateRequest"
+							}
+						}
+					}
+				},
+				"responses": {
+					"201": {
+						"description": "Successful operation",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/WaterRateResponse"
+								}
+							}
+						}
+					},
+					"400": {
+						"description": "Bad request (invalid request body)",
+						"content": {}
+					}
+				}
+			}
+		},
 		"/water/create": {
 			"post": {
 				"tags": ["Water"],
@@ -619,6 +654,28 @@
 				}
 			},
 			"UserInfoResponse": {},
+			"WaterRateRequest": {
+				"type": "object",
+				"required": ["waterRate"],
+				"properties": {
+					"waterRate": {
+						"type": "integer",
+						"description": "User`s water Rate",
+						"minLength": "0",
+						"maxLength": "15000"
+					}
+				}
+			},
+			"WaterRateResponse": {
+				"type": "object",
+				"required": ["waterRate"],
+				"properties": {
+					"waterRate": {
+						"type": "integer",
+						"description": "User`s water rate"
+					}
+				}
+			},
 			"CreateWaterNoteRequest": {},
 			"CreateWaterNoteResponse": {},
 			"UpdateWaterNoteRequest": {},
