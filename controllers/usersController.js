@@ -32,9 +32,9 @@ const signup = async (req, res) => {
     throw new HttpError(409, "User with such email already exists");
   }
 
-  if (password !== repeatPassword) {
-    throw new HttpError(400, "Repeat password and password do not match");
-  }
+  //   if (password !== repeatPassword) {
+  //     throw new HttpError(400, "Repeat password and password do not match");
+  //   }
 
   const hashPassword = await bcrypt.hash(password, 10);
   const verificationToken = nanoid();
