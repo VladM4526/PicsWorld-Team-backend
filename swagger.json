@@ -3,13 +3,16 @@
 	"info": {
 		"title": "PicsWorldProject API",
 		"version": "1.0.0",
-		"description": "Documentation for PicsWorldProject"
+		"description": "Documentation for PicsWorldProject, water tracker"
 	},
 	"consumes": ["application/json", "multipart/form-data"],
 	"produces": ["application/json", "multipart/form-data"],
 	"servers": [
 		{
 			"url": "https://trackerwaterapp.onrender.com/api-docs/"
+		},
+		{
+			"url": "http://localhost:3001"
 		}
 	],
 	"tags": [
@@ -277,22 +280,10 @@
 						"description": "To change a user gender"
 					},
 					{
-						"name": "currentPassword",
+						"name": "changePassword",
 						"in": "path",
 						"type": "string",
-						"description": "Current user password. Must be used together with 'newPassword' and 'confirmPassword'"
-					},
-					{
-						"name": "newPassword",
-						"in": "path",
-						"type": "string",
-						"description": "New user password. Must be used together with 'currentPassword' and 'confirmPassword'"
-					},
-					{
-						"name": "confirmPassword",
-						"in": "path",
-						"type": "string",
-						"description": "To confirm a user new password. Must be used together with 'currentPassword' and 'newPassword'"
+						"description": "New user password"
 					}
 				],
 				"security": [{ "Bearer": [] }],
@@ -676,7 +667,37 @@
 					}
 				}
 			},
-			"UserInfoResponse": {},
+			"UserInfoResponse": {
+				"type": "array",
+				"properties": {
+					"id": {
+						"type": "string",
+						"description": "User`s id",
+						"example": "9578a252-1d7a-4fcc-82e2-d1a528dd3d0c"
+					},
+					"name": {
+						"type": "string",
+						"description": "User`s name",
+						"maxLength": "32"
+					},
+					"email": {
+						"type": "string",
+						"description": "User`s email",
+						"format": "email"
+					},
+					"gender": {
+						"type": "object",
+						"description": "User`s gender"
+					},
+					"password": {
+						"type": "string",
+						"description": "User`s password",
+						"example": "abcde123",
+						"minLength": "8",
+						"maxLength": "64"
+					}
+				}
+			},
 			"WaterRateRequest": {
 				"type": "object",
 				"required": ["waterRate"],
