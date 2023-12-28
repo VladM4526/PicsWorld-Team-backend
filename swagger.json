@@ -17,19 +17,35 @@
 	],
 	"tags": [
 		{
-			"name": "Users",
-			"description": "Users endpoints"
+			"name": "Auth",
+			"description": "Authorization"
+		},
+		{
+			"name": "User",
+			"description": "Information about user"
+		},
+		{
+			"name": "WaterRate",
+			"description": "Infromstion about water rate"
 		},
 		{
 			"name": "Water",
-			"description": "Water endpoints"
+			"description": "information about water consumption"
+		},
+		{
+			"name": "Today",
+			"description": "Daily water consumption"
+		},
+		{
+			"name": "Month",
+			"description": "Monthly water consumption"
 		}
 	],
 
 	"paths": {
-		"/users/signup": {
+		"api/users/signup": {
 			"post": {
-				"tags": ["Users"],
+				"tags": ["Auth"],
 				"summary": "Users registration",
 				"parameters": [],
 
@@ -72,9 +88,9 @@
 				}
 			}
 		},
-		"/users/signin": {
+		"api/users/signin": {
 			"post": {
-				"tags": ["Users"],
+				"tags": ["Auth"],
 				"summary": "Users login",
 				"parameters": [],
 
@@ -121,53 +137,9 @@
 				}
 			}
 		},
-		"/users/current": {
+		"api/users/verify/{verificationToken}": {
 			"get": {
-				"tags": ["Users"],
-				"summary": "Info about current user",
-
-				"security": [{ "Bearer": [] }],
-
-				"responses": {
-					"200": {
-						"description": "Logged user returned",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/CurrentUserResponse"
-								}
-							}
-						}
-					},
-					"401": {
-						"description": "Bearer Auth failed",
-						"content": {}
-					}
-				}
-			}
-		},
-		"/users/signout": {
-			"delete": {
-				"tags": ["Users"],
-				"summary": "Signout from account",
-				"parameters": [],
-				"security": [{ "Bearer": [] }],
-
-				"responses": {
-					"204": {
-						"description": "User signed out",
-						"content": {}
-					},
-					"401": {
-						"description": "Bearer Auth failed",
-						"content": {}
-					}
-				}
-			}
-		},
-		"/users/verify/{verificationToken}": {
-			"get": {
-				"tags": ["Users"],
+				"tags": ["Auth"],
 				"summary": "User verification by verificationToken",
 				"parameters": [
 					{
@@ -192,10 +164,55 @@
 				}
 			}
 		},
+		"api/users/signout": {
+			"delete": {
+				"tags": ["Auth"],
+				"summary": "Signout from account",
+				"parameters": [],
+				"security": [{ "Bearer": [] }],
 
-		"/users/avatars/{userId}": {
+				"responses": {
+					"204": {
+						"description": "User signed out",
+						"content": {}
+					},
+					"401": {
+						"description": "Bearer Auth failed",
+						"content": {}
+					}
+				}
+			}
+		},
+
+		"api/users/current": {
+			"get": {
+				"tags": ["User"],
+				"summary": "Info about current user",
+
+				"security": [{ "Bearer": [] }],
+
+				"responses": {
+					"200": {
+						"description": "Logged user returned",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/CurrentUserResponse"
+								}
+							}
+						}
+					},
+					"401": {
+						"description": "Bearer Auth failed",
+						"content": {}
+					}
+				}
+			}
+		},
+
+		"api/users/avatars/{userId}": {
 			"patch": {
-				"tags": ["Users"],
+				"tags": ["User"],
 				"summary": "Change user`s avatar",
 				"parameters": [
 					{
@@ -249,9 +266,9 @@
 				}
 			}
 		},
-		"/users/userInfo/{userId}": {
+		"api/users/userInfo/{userId}": {
 			"patch": {
-				"tags": ["Users"],
+				"tags": ["User"],
 				"summary": "Change info about user",
 				"parameters": [
 					{
@@ -320,9 +337,9 @@
 				}
 			}
 		},
-		"/users/waterRate/{userId}": {
+		"api/users/waterRate/{userId}": {
 			"put": {
-				"tags": ["Users"],
+				"tags": ["WaterRate"],
 				"summary": "Put water rate",
 				"parameters": [
 					{
@@ -363,7 +380,7 @@
 				}
 			}
 		},
-		"/water/create": {
+		"api/water/create": {
 			"post": {
 				"tags": ["Water"],
 				"summary": "Create water note",
@@ -405,7 +422,7 @@
 				}
 			}
 		},
-		"/water/update": {
+		"api/water/update": {
 			"patch": {
 				"tags": ["Water"],
 				"summary": "Update water note",
@@ -447,7 +464,7 @@
 				}
 			}
 		},
-		"/water/delete": {
+		"api/water/delete": {
 			"delete": {
 				"tags": ["Water"],
 				"summary": "Delete water note",
