@@ -24,6 +24,19 @@ const loginSchema = Joi.object({
 	}),
 });
 
+// const updateSchema = Joi.object({
+// 	email: Joi.string().pattern(new RegExp(emailRegexp)).messages({
+// 		'any.required': `Missing required email field`,
+// 	}),
+
+// 	password: Joi.string().min(8).max(64).messages({
+// 		'any.required': `Missing required password field`,
+// 	}),
+// 	name: Joi.string().max(32),
+// 	gender: Joi.string().'mail', 'femail',
+
+// });
+
 const userValidationSchemas = {
 	registerSchema,
 	loginSchema,
