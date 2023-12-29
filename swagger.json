@@ -43,7 +43,7 @@
 	],
 
 	"paths": {
-		"api/users/signup": {
+		"/api/auth/signup": {
 			"post": {
 				"tags": ["Auth"],
 				"summary": "Users registration",
@@ -88,7 +88,7 @@
 				}
 			}
 		},
-		"api/users/signin": {
+		"/api/auth/signin": {
 			"post": {
 				"tags": ["Auth"],
 				"summary": "Users login",
@@ -137,7 +137,7 @@
 				}
 			}
 		},
-		"api/users/verify/{verificationToken}": {
+		"/api/auth/verify/{verificationToken}": {
 			"get": {
 				"tags": ["Auth"],
 				"summary": "User verification by verificationToken",
@@ -164,7 +164,7 @@
 				}
 			}
 		},
-		"api/users/signout": {
+		"/api/auth/signout": {
 			"delete": {
 				"tags": ["Auth"],
 				"summary": "Signout from account",
@@ -184,7 +184,7 @@
 			}
 		},
 
-		"api/users/current": {
+		"/api/users/current": {
 			"get": {
 				"tags": ["User"],
 				"summary": "Info about current user",
@@ -210,7 +210,7 @@
 			}
 		},
 
-		"api/users/avatars/{userId}": {
+		"/api/users/avatars/{userId}": {
 			"patch": {
 				"tags": ["User"],
 				"summary": "Change user`s avatar",
@@ -266,7 +266,7 @@
 				}
 			}
 		},
-		"api/users/userInfo/{userId}": {
+		"/api/users/userInfo/{userId}": {
 			"patch": {
 				"tags": ["User"],
 				"summary": "Change info about user",
@@ -337,7 +337,7 @@
 				}
 			}
 		},
-		"api/users/waterRate/{userId}": {
+		"/api/users/waterRate/{userId}": {
 			"put": {
 				"tags": ["WaterRate"],
 				"summary": "Put water rate",
@@ -380,7 +380,7 @@
 				}
 			}
 		},
-		"api/water/create": {
+		"/api/water/create": {
 			"post": {
 				"tags": ["Water"],
 				"summary": "Create water note",
@@ -422,7 +422,7 @@
 				}
 			}
 		},
-		"api/water/update": {
+		"/api/water/update": {
 			"patch": {
 				"tags": ["Water"],
 				"summary": "Update water note",
@@ -464,7 +464,7 @@
 				}
 			}
 		},
-		"api/water/delete": {
+		"/api/water/delete": {
 			"delete": {
 				"tags": ["Water"],
 				"summary": "Delete water note",
@@ -509,13 +509,8 @@
 		"schemas": {
 			"SignupRequest": {
 				"type": "object",
-				"required": ["name", "email", "password"],
+				"required": ["email", "password"],
 				"properties": {
-					"name": {
-						"type": "string",
-						"description": "User`s name",
-						"maxLength": "32"
-					},
 					"email": {
 						"type": "string",
 						"description": "User`s email",
@@ -638,6 +633,26 @@
 				"type": "object",
 
 				"properties": {
+					"avatar": {
+						"type": "file",
+						"description": "User`s avatar"
+					}
+				}
+			},
+			"ChangeAvatarResponse": {
+				"type": "object",
+				"required": ["avatar"],
+				"properties": {
+					"avatar": {
+						"type": "file",
+						"description": "User`s avatar"
+					}
+				}
+			},
+			"UserInfoRequest": {
+				"type": "object",
+
+				"properties": {
 					"name": {
 						"type": "object",
 						"description": "User`s name"
@@ -661,26 +676,6 @@
 					"confirmNewPassword": {
 						"type": "object",
 						"description": "User`s new password"
-					}
-				}
-			},
-			"ChangeAvatarResponse": {
-				"type": "object",
-				"required": ["avatar"],
-				"properties": {
-					"avatar": {
-						"type": "file",
-						"description": "User`s avatar"
-					}
-				}
-			},
-			"UserInfoRequest": {
-				"type": "object",
-				"required": ["avatar"],
-				"properties": {
-					"avatar": {
-						"type": "file",
-						"description": "User`s avatar"
 					}
 				}
 			},

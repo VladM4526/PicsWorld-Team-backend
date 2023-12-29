@@ -8,6 +8,8 @@ import dotenv from 'dotenv';
 
 import usersRouter from './routes/userRouter.js';
 
+import authRouter from './routes/authRouter.js';
+
 import waterRouter from './routes/waterRouter.js';
 
 // SWAGGER
@@ -34,8 +36,9 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('public'));
 
-app.use('api/users', usersRouter);
-app.use('api/water', waterRouter);
+app.use('/api/auth', authRouter);
+app.use('/api/users', usersRouter);
+app.use('/api/water', waterRouter);
 
 app.use((req, res) => {
 	res.status(404).json({ message: 'Not found' });
