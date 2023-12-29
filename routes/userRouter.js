@@ -9,20 +9,6 @@ import { uploadTmp } from '../middlewars/uploadTmp.js';
 
 const usersRouter = express.Router();
 
-usersRouter.post(
-	'/signup',
-	validateBody(userValidationSchemas.registerSchema),
-	usersController.signup
-);
-
-usersRouter.get('/verify/:verificationToken', usersController.verify);
-
-usersRouter.post(
-	'/signin',
-	validateBody(userValidationSchemas.loginSchema),
-	usersController.signin
-);
-
 usersRouter.get('/current', authenticate, usersController.getCurrent);
 
 usersRouter.patch(
@@ -35,7 +21,5 @@ usersRouter.patch(
 usersRouter.put('/waterrate', authenticate, usersController.waterRate);
 
 usersRouter.patch('/userinfo', authenticate, usersController.updateUserInfo);
-
-usersRouter.post('/signout', authenticate, usersController.signout);
 
 export default usersRouter;
