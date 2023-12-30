@@ -216,13 +216,6 @@
 				"summary": "Change user`s avatar",
 				"parameters": [
 					{
-						"in": "formData",
-						"name": "avatar",
-						"required": "true",
-						"type": "file",
-						"description": "Avatar to upload"
-					},
-					{
 						"in": "path",
 						"name": "userId",
 						"required": "true",
@@ -337,7 +330,7 @@
 				}
 			}
 		},
-		"/api/users/waterRate/{userId}": {
+		"/api/users/waterrate/{userId}": {
 			"put": {
 				"tags": ["WaterRate"],
 				"summary": "Put water rate",
@@ -352,7 +345,7 @@
 				],
 				"security": [{ "Bearer": [] }],
 				"requestBody": {
-					"description": "Change user info",
+					"description": "Change user water rate",
 					"required": true,
 					"content": {
 						"application/json": {
@@ -712,7 +705,7 @@
 			},
 			"WaterRateRequest": {
 				"type": "object",
-				"required": ["waterRate"],
+				"required": ["userId", "waterRate"],
 				"properties": {
 					"waterRate": {
 						"type": "integer",
