@@ -169,7 +169,7 @@
 				"tags": ["Auth"],
 				"summary": "Signout from account",
 				"parameters": [],
-				"security": [{ "Bearer": [] }],
+				"security": [{ "bearer": [] }],
 
 				"responses": {
 					"204": {
@@ -189,7 +189,7 @@
 				"tags": ["User"],
 				"summary": "Info about current user",
 
-				"security": [{ "Bearer": [] }],
+				"security": [{ "bearer": [] }],
 
 				"responses": {
 					"200": {
@@ -256,7 +256,7 @@
 				"tags": ["User"],
 				"summary": "Change info about user",
 				"parameters": [],
-				"security": [{ "Bearer": [] }],
+				"security": [{ "bearer": [] }],
 				"requestBody": {
 					"description": "Change user info",
 					"required": true,
@@ -303,7 +303,7 @@
 						"description": "userId"
 					}
 				],
-				"security": [{ "Bearer": [] }],
+				"security": [{ "bearer": [] }],
 				"requestBody": {
 					"description": "Change user water rate",
 					"required": true,
@@ -338,7 +338,7 @@
 				"tags": ["Water"],
 				"summary": "Create water note",
 				"parameters": [],
-				"security": [{ "Bearer": [] }],
+				"security": [{ "bearer": [] }],
 
 				"requestBody": {
 					"description": "Create water note object",
@@ -380,7 +380,7 @@
 				"tags": ["Water"],
 				"summary": "Update water note",
 				"parameters": [],
-				"security": [{ "Bearer": [] }],
+				"security": [{ "bearer": [] }],
 
 				"requestBody": {
 					"description": "Update water note object",
@@ -422,7 +422,7 @@
 				"tags": ["Water"],
 				"summary": "Delete water note",
 				"parameters": [],
-				"security": [{ "Bearer": [] }],
+				"security": [{ "bearer": [] }],
 
 				"requestBody": {
 					"description": "Delete water note object",
