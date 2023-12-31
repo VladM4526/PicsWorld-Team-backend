@@ -61,7 +61,8 @@ const verify = async (req, res) => {
 };
 
 const signin = async (req, res) => {
-	const { email, password, _id, gender, name, waterRate } = req.body;
+	const { email, password, gender, _id, name, waterRate } = req.body;
+
 	const user = await User.findOne({ email });
 	if (!user) {
 		throw new HttpError(401, 'User with such email not found');
