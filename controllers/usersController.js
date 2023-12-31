@@ -20,10 +20,10 @@ const __dirname = path.dirname(__filename);
 const avatarsPath = path.join(__dirname, '../', 'public', 'avatars');
 
 const getCurrent = async (req, res) => {
-	const { email } = req.user;
+	const { _id, name, email, waterRate } = req.user;
 	res.json({
 		_id,
-		name: UserName,
+		name,
 		email,
 		waterRate,
 	});
@@ -31,7 +31,6 @@ const getCurrent = async (req, res) => {
 
 const waterRate = async (req, res) => {
 	const { waterRate } = req.body;
-
 	const userId = req.params.id;
 	const existingUser = User.findById(userId);
 	if (waterRate) {

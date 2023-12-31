@@ -18,7 +18,7 @@ usersRouter.patch(
 	usersController.updateAvatar
 );
 
-usersRouter.put('/waterrate', authenticate, usersController.waterRate);
+usersRouter.put('/waterrate/:id', authenticate, usersController.waterRate);
 
 usersRouter.patch('/userinfo', authenticate, usersController.updateUserInfo);
 

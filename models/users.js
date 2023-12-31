@@ -1,14 +1,13 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose';
 
 import {
-  handleMongooseError,
-  preUpdate,
-} from "../utils/helpers/handleMongooseError.js";
+	handleMongooseError,
+	preUpdate,
+} from '../utils/helpers/handleMongooseError.js';
 
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 const userSchema = new Schema(
-
 	{
 		name: {
 			type: String,
@@ -51,14 +50,12 @@ const userSchema = new Schema(
 		token: String,
 	},
 	{ versionKey: false, timestamps: true }
-
-  
 );
 
-userSchema.post("save", handleMongooseError);
-userSchema.pre("findOneAndUpdate", preUpdate);
-userSchema.post("findOneAndUpdate", handleMongooseError);
+userSchema.post('save', handleMongooseError);
+userSchema.pre('findOneAndUpdate', preUpdate);
+userSchema.post('findOneAndUpdate', handleMongooseError);
 
-const User = model("user", userSchema, "users");
+const User = model('user', userSchema, 'users');
 
 export default User;
