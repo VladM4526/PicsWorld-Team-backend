@@ -156,34 +156,54 @@ const monthWater = async(req, res) => {
 			}
 		  },
 		  {
+			$lookup: {
+			    from: "users",
+			    localField: "owner",
+			    foreignField: "_id",
+			    as: "user"
+			}
+		},
+		{
+			$unwind: "$user"
+		},
+		  {
 			$group: {
 			  _id: { $dayOfMonth: "$date" },
+			  date: {
+				$first: { $dateToString: { format: "%Y-%m-%d", date: "$date" } },
+			  },
+			  waterRate: { $first: "$user.waterRate" },
 			  totalWaterVolume: { $sum: "$waterVolume" },
 			  count: { $sum: 1 }
 			}
 		  },
-		  {
-			$lookup: {
-			  from: "users",
-			  localField: "owner",
-			  foreignField: "_id",
-			  as: "user"
-			}
-		  },
-		  {
-			$unwind: "$user"
-		  },
-		  {
+		{
 			$project: {
 			  _id: 0,
-			  date: { $dateToString: { format: "%d, %B", date: "$date" } },
-			  dailyNorm: "$user.waterRate",
-			  percentConsumed: {
-				$multiply: [{ $divide: ["$totalWaterVolume", "$user.waterRate"] }, 100]
+			  date:1,
+			  dailyWaterRate: {
+				$concat: [
+				  { $toString: { $divide: ["$waterRate", 1000] } },
+				  " L",
+				],
 			  },
-			  count: 1
-			}
-		  }
+			  count: 1,
+			  percentage: {
+				$concat: [
+				  {
+					$toString: {
+					  $round: [
+						{
+						  $multiply: [{ $divide: ["$totalWaterVolume", "$waterRate"] },100,],
+						},0,
+					  ],
+					},
+				  },
+				  "%",
+				],
+			  },
+			},
+		  },
 	];
 
 	const result = await Water.aggregate(aggregationList);
