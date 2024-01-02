@@ -38,7 +38,7 @@ const waterRate = async (req, res) => {
 		existingUser.waterRate = waterRate;
 	}
 	if (!existingUser) {
-		return res.status(404).json({ message: 'User not found' });
+		throw new HttpError(404,'User not found');
 	}
 
 	const updatedWater = await User.findByIdAndUpdate(
@@ -60,7 +60,7 @@ const updateUserInfo = async (req, res) => {
 	const existingUser = await User.findById(userId);
 
 	if (!existingUser) {
-		return res.status(404).json({ message: 'User not found' });
+		throw new HttpError (404, 'User not found');
 	}
 
 	if (newPassword) {
@@ -71,9 +71,8 @@ const updateUserInfo = async (req, res) => {
 		if (!isPasswordValid) {
 			throw new HttpError(401, 'Invalid old password');
 		}
-		// const hashedNewPassword = newPassword;
-		// await bcrypt.hash(newPassword, 10);
-		existingUser.password = newPassword;
+		const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+		existingUser.password = hashedNewPassword;
 	}
 
 	if (name) {
