@@ -1,12 +1,13 @@
 import Water from '../models/water.js';
 import {
-	handleMongooseError,
-	preUpdate,
+	handleMongooseError
 } from '../utils/helpers/handleMongooseError.js';
+import HttpError from '../utils/helpers/httpErrors.js';
 
 import ctrlWrapper from '../utils/decorators/ctrlWrapper.js';
 
 const createWaterNote = async (req, res) => {
+	try {
 		const { date, waterVolume } = req.body;
 		const owner = req.user._id;
 
@@ -18,6 +19,10 @@ const createWaterNote = async (req, res) => {
 		 });
 
 		res.status(201).json(newWaterNote);
+	}catch (error) {
+		handleMongooseError(error, res);
+	}
+		
 };
 
 const updateWaterNote = async (req, res) => {
@@ -32,7 +37,7 @@ const updateWaterNote = async (req, res) => {
 		);
 
 		if (!updatedWaterNote) {
-			return res.status(404).json({ message: 'Water note not found' });
+			throw new HttpError(404,'Water note not found');
 		}
 
 		res.json(updatedWaterNote);
@@ -51,13 +56,21 @@ const deleteWaterNote = async (req, res) => {
 		});
 
 		if (!deletedWaterNote) {
-			return res.status(404).json({ message: 'Water note not found' });
+			throw new HttpError (404, 'Water note not found');
 		}
 
 		res.json(deletedWaterNote);
 	} catch (error) {
 		handleMongooseError(error, res);
 	}
+};
+
+const todayWater = async(req, res) => {
+	const ownerId = req.user._id;
+	const today = new Date();
+	const todayStart = startOfDay(today);
+	const todayEnd = endOfDay(today);
+
 };
 
 export default {
