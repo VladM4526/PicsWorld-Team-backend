@@ -66,10 +66,48 @@ const deleteWaterNote = async (req, res) => {
 };
 
 const todayWater = async(req, res) => {
-	const ownerId = req.user._id;
-	const today = new Date();
-	const todayStart = startOfDay(today);
-	const todayEnd = endOfDay(today);
+	const userId = req.user._id;
+	const { date} = req.body;
+	const today = new Date(date);
+
+	const aggregationList = [
+		{
+			$match: {
+				owner: userId,
+				date: {
+					$gte: today,
+					$lt: new Date(today.getTime() + 24 * 60 * 60 * 1000) // Для вибору всіх записів за день
+				}
+			}
+		},
+		{
+			$lookup: {
+			    from: "users", // Назва колекції користувачів
+			    localField: "owner",
+			    foreignField: "_id",
+			    as: "user"
+			}
+		},
+		{
+			$unwind: "$user"
+		},
+		{
+			$group: {
+				_id: null,
+				userId: { $first: "$user._id" },
+				waterRate: { $first: "$user.waterRate" },
+				number_of_records: { $sum: 1 },
+				totalWaterVolume: { $sum: "$waterVolume" }, 
+				waterRecords: { $push: "$$ROOT" },
+				// percentage: { $divide: [ "$totalWaterVolume", "$user.waterRate" ] }
+			}
+		},
+		
+	  ];
+	  
+	  const result = await Water.aggregate(aggregationList);
+
+	  res.json(result[0])
 
 };
 
@@ -77,4 +115,5 @@ export default {
 	createWaterNote: ctrlWrapper(createWaterNote),
 	updateWaterNote: ctrlWrapper(updateWaterNote),
 	deleteWaterNote: ctrlWrapper(deleteWaterNote),
+	todayWater: ctrlWrapper(todayWater)
 };
