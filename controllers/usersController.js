@@ -31,7 +31,8 @@ const getCurrent = async (req, res) => {
 
 const waterRate = async (req, res) => {
 	const { waterRate } = req.body;
-	const userId = req.params.id;
+	// const userId = req.params.id;
+	const userId = req.user._id;
 	const existingUser = User.findById(userId);
 	if (waterRate) {
 		existingUser.waterRate = waterRate;
@@ -70,10 +71,6 @@ const updateUserInfo = async (req, res) => {
 		if (!isPasswordValid) {
 			throw new HttpError(401, 'Invalid old password');
 		}
-
-		// if (newPassword !== confirmPassword) {
-		// 	throw new HttpError(400, 'New password and confirmation do not match');
-		// }
 		// const hashedNewPassword = newPassword;
 		// await bcrypt.hash(newPassword, 10);
 		existingUser.password = newPassword;
