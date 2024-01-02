@@ -23,6 +23,8 @@ waterRouter.patch(
 
 waterRouter.delete('/delete/:id', authenticate, waterController.deleteWaterNote);
 
-waterRouter.get('/today', authenticate, waterController.todayWater)
+waterRouter.get('/today', authenticate, waterController.todayWater);
+
+waterRouter.get('/:month', authenticate, waterController.monthWater)
 
 export default waterRouter;
