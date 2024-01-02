@@ -30,7 +30,7 @@ waterNotesSchema.post('save', handleMongooseError);
 waterNotesSchema.pre('findOneAndUpdate', preUpdate);
 waterNotesSchema.post('findOneAndUpdate', handleMongooseError);
 
-const Water = model('water', waterNotesSchema);
+const Water = model('water', waterNotesSchema, 'waters');
 
 // const schemas =  {
 //     createContactValidationSchema,
@@ -38,7 +38,4 @@ const Water = model('water', waterNotesSchema);
 //     contactFavoriteSchema,
 // }
 
-export default {
-	Water,
-	// schemas
-};
+export default Water;

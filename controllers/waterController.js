@@ -3,21 +3,21 @@ import {
 	handleMongooseError,
 	preUpdate,
 } from '../utils/helpers/handleMongooseError.js';
-import water from '../models/water.js';
+
 import ctrlWrapper from '../utils/decorators/ctrlWrapper.js';
 
 const createWaterNote = async (req, res) => {
-	try {
 		const { date, waterVolume } = req.body;
 		const owner = req.user._id;
 
-		const newWaterNote = new Water({ date, waterVolume, owner });
-		const savedWaterNote = await newWaterNote.save();
+		const newWaterNote = await Water.create({ 
+			...req.body,
+			date:date, 
+			waterVolume:waterVolume, 
+			owner:owner
+		 });
 
-		res.status(201).json(savedWaterNote);
-	} catch (error) {
-		handleMongooseError(error, res);
-	}
+		res.status(201).json(newWaterNote);
 };
 
 const updateWaterNote = async (req, res) => {
