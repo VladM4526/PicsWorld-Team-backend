@@ -20,7 +20,7 @@ const signup = async (req, res) => {
 	if (user) {
 		throw new HttpError(409, 'User with such email already exists');
 	}
-
+	
 	const hashPassword = await bcrypt.hash(password, 10);
 	const verificationToken = nanoid();
 

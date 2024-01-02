@@ -21,6 +21,6 @@ waterRouter.patch(
 	waterController.updateWaterNote
 );
 
-waterRouter.delete('/delete', authenticate, waterController.deleteWaterNote);
+waterRouter.delete('/delete/:id', authenticate, waterController.deleteWaterNote);
 
 export default waterRouter;

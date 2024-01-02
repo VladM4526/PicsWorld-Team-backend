@@ -52,7 +52,7 @@ const waterRate = async (req, res) => {
 };
 
 const updateUserInfo = async (req, res) => {
-	const { name, email, gender, oldPassword, newPassword, confirmPassword } =
+	const { name, email, gender, waterRate, oldPassword, newPassword} =
 		req.body;
 	const userId = req.user._id;
 
@@ -71,11 +71,12 @@ const updateUserInfo = async (req, res) => {
 			throw new HttpError(401, 'Invalid old password');
 		}
 
-		if (newPassword !== confirmPassword) {
-			throw new HttpError(400, 'New password and confirmation do not match');
-		}
-		const hashedNewPassword = await bcrypt.hash(newPassword, 10);
-		existingUser.password = hashedNewPassword;
+		// if (newPassword !== confirmPassword) {
+		// 	throw new HttpError(400, 'New password and confirmation do not match');
+		// }
+		// const hashedNewPassword = newPassword;
+		// await bcrypt.hash(newPassword, 10);
+		existingUser.password = newPassword;
 	}
 
 	if (name) {
@@ -87,6 +88,10 @@ const updateUserInfo = async (req, res) => {
 	if (gender) {
 		existingUser.gender = gender;
 	}
+	if (waterRate) {
+		existingUser.waterRate = waterRate;
+	}
+
 
 	const updatedUser = await existingUser.save();
 
