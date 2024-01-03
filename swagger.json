@@ -9,7 +9,7 @@
 	"produces": ["application/json", "multipart/form-data"],
 	"servers": [
 		{
-			"url": "https://trackerwaterapp.onrender.com/api-docs/"
+			"url": "https://trackerwaterapp.onrender.com"
 		},
 		{
 			"url": "http://localhost:3001"
@@ -169,7 +169,7 @@
 				"tags": ["Auth"],
 				"summary": "Signout from account",
 				"parameters": [],
-				"security": [{ "Bearer": [] }],
+				"security": [{ "bearer": [] }],
 
 				"responses": {
 					"204": {
@@ -189,7 +189,7 @@
 				"tags": ["User"],
 				"summary": "Info about current user",
 
-				"security": [{ "Bearer": [] }],
+				"security": [{ "bearer": [] }],
 
 				"responses": {
 					"200": {
@@ -210,19 +210,11 @@
 			}
 		},
 
-		"/api/users/avatars/{userId}": {
+		"/api/users/avatars": {
 			"patch": {
 				"tags": ["User"],
 				"summary": "Change user`s avatar",
-				"parameters": [
-					{
-						"in": "path",
-						"name": "userId",
-						"required": "true",
-						"type": "string",
-						"description": "userId"
-					}
-				],
+				"parameters": [],
 				"security": [{ "bearer": [] }],
 				"requestBody": {
 					"description": "Change avatar object",
@@ -259,44 +251,12 @@
 				}
 			}
 		},
-		"/api/users/userInfo/{userId}": {
+		"/api/users/userinfo": {
 			"patch": {
 				"tags": ["User"],
 				"summary": "Change info about user",
-				"parameters": [
-					{
-						"in": "path",
-						"name": "userId",
-						"required": "true",
-						"type": "string",
-						"description": "userId"
-					},
-					{
-						"name": "changeName",
-						"in": "path",
-						"type": "string",
-						"description": "To change a user name"
-					},
-					{
-						"name": "changeEmail",
-						"in": "path",
-						"type": "string",
-						"description": "To change a user email"
-					},
-					{
-						"name": "changeGender",
-						"in": "path",
-						"type": "string",
-						"description": "To change a user gender"
-					},
-					{
-						"name": "changePassword",
-						"in": "path",
-						"type": "string",
-						"description": "New user password"
-					}
-				],
-				"security": [{ "Bearer": [] }],
+				"parameters": [],
+				"security": [{ "bearer": [] }],
 				"requestBody": {
 					"description": "Change user info",
 					"required": true,
@@ -343,7 +303,7 @@
 						"description": "userId"
 					}
 				],
-				"security": [{ "Bearer": [] }],
+				"security": [{ "bearer": [] }],
 				"requestBody": {
 					"description": "Change user water rate",
 					"required": true,
@@ -378,7 +338,7 @@
 				"tags": ["Water"],
 				"summary": "Create water note",
 				"parameters": [],
-				"security": [{ "Bearer": [] }],
+				"security": [{ "bearer": [] }],
 
 				"requestBody": {
 					"description": "Create water note object",
@@ -420,7 +380,7 @@
 				"tags": ["Water"],
 				"summary": "Update water note",
 				"parameters": [],
-				"security": [{ "Bearer": [] }],
+				"security": [{ "bearer": [] }],
 
 				"requestBody": {
 					"description": "Update water note object",
@@ -462,7 +422,7 @@
 				"tags": ["Water"],
 				"summary": "Delete water note",
 				"parameters": [],
-				"security": [{ "Bearer": [] }],
+				"security": [{ "bearer": [] }],
 
 				"requestBody": {
 					"description": "Delete water note object",
@@ -647,33 +607,44 @@
 
 				"properties": {
 					"name": {
-						"type": "object",
-						"description": "User`s name"
+						"type": "string",
+						"description": "User`s name",
+						"maxLength": "32"
 					},
 					"email": {
-						"type": "object",
-						"description": "User`s email"
+						"type": "string",
+						"description": "User`s email",
+						"format": "email"
 					},
 					"gender": {
-						"type": "object",
+						"type": "string",
 						"description": "User`s gender"
 					},
 					"currentPassword": {
-						"type": "object",
-						"description": "User`s current password"
+						"type": "string",
+						"description": "User`s current password",
+						"example": "abcde123",
+						"minLength": "8",
+						"maxLength": "64"
 					},
 					"newPassword": {
-						"type": "object",
-						"description": "User`s new password"
+						"type": "string",
+						"description": "User`s new password",
+						"example": "abcde123",
+						"minLength": "8",
+						"maxLength": "64"
 					},
 					"confirmNewPassword": {
-						"type": "object",
-						"description": "User`s new password"
+						"type": "string",
+						"description": "User`s new password",
+						"example": "abcde123",
+						"minLength": "8",
+						"maxLength": "64"
 					}
 				}
 			},
 			"UserInfoResponse": {
-				"type": "array",
+				"type": "object",
 				"properties": {
 					"id": {
 						"type": "string",
@@ -691,7 +662,7 @@
 						"format": "email"
 					},
 					"gender": {
-						"type": "object",
+						"type": "string",
 						"description": "User`s gender"
 					},
 					"password": {
