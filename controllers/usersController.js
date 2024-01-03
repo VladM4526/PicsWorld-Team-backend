@@ -31,7 +31,7 @@ const getCurrent = async (req, res) => {
 
 const waterRate = async (req, res) => {
 	const { waterRate } = req.body;
-	// const userId = req.params.id;
+
 	const userId = req.user._id;
 	const existingUser = User.findById(userId);
 	if (waterRate) {
@@ -49,12 +49,10 @@ const waterRate = async (req, res) => {
 		{ new: true }
 	);
 	res.json(updatedWater);
-	// res.json(updatedWater.waterRate); тільки показник води віддає
 };
 
 const updateUserInfo = async (req, res) => {
-	const { name, email, gender, waterRate, oldPassword, newPassword} =
-		req.body;
+	const { name, email, gender, waterRate, oldPassword, newPassword } = req.body;
 	const userId = req.user._id;
 
 	const existingUser = await User.findById(userId);
@@ -87,7 +85,6 @@ const updateUserInfo = async (req, res) => {
 	if (waterRate) {
 		existingUser.waterRate = waterRate;
 	}
-
 
 	const updatedUser = await existingUser.save();
 
