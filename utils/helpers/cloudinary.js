@@ -11,12 +11,4 @@ cloudinary.config({
 	api_secret: CLOUDINARY_API_SECRET,
 });
 
-// const storage = new CloudinaryStorage({
-// 	cloudinary,
-// 	params: {
-// 		folder: 'avatars',
-// 		allowedFormats: ['jpeg', 'png', 'jpg'],
-// 	},
-// });
-
 export default cloudinary;
