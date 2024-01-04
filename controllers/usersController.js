@@ -22,12 +22,15 @@ dotenv.config();
 // const avatarsPath = path.join(__dirname, '../', 'public', 'avatars');
 
 const getCurrent = async (req, res) => {
-	const { _id, name, email, waterRate } = req.user;
+	const { _id, name, email, waterRate, gender, avatarURL } = req.user;
 	res.json({
 		_id,
 		name,
 		email,
+		gender,
 		waterRate,
+		avatarURL
+
 	});
 };
 
