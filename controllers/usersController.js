@@ -6,18 +6,20 @@ import User from '../models/users.js';
 
 import fs from 'fs/promises';
 import path from 'path';
-import { fileURLToPath } from 'url';
+// import { fileURLToPath } from 'url';
 
 import HttpError from '../utils/helpers/httpErrors.js';
+
+import cloudinary from '../utils/helpers/cloudinary.js';
 
 import ctrlWrapper from '../utils/decorators/ctrlWrapper.js';
 
 dotenv.config();
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// const __filename = fileURLToPath(import.meta.url);
+// const __dirname = path.dirname(__filename);
 
-const avatarsPath = path.join(__dirname, '../', 'public', 'avatars');
+// const avatarsPath = path.join(__dirname, '../', 'public', 'avatars');
 
 const getCurrent = async (req, res) => {
 	const { _id, name, email, waterRate } = req.user;
@@ -38,7 +40,7 @@ const waterRate = async (req, res) => {
 		existingUser.waterRate = waterRate;
 	}
 	if (!existingUser) {
-		throw new HttpError(404,'User not found');
+		throw new HttpError(404, 'User not found');
 	}
 
 	const updatedWater = await User.findByIdAndUpdate(
@@ -58,7 +60,7 @@ const updateUserInfo = async (req, res) => {
 	const existingUser = await User.findById(userId);
 
 	if (!existingUser) {
-		throw new HttpError (404, 'User not found');
+		throw new HttpError(404, 'User not found');
 	}
 
 	if (newPassword) {
@@ -93,20 +95,25 @@ const updateUserInfo = async (req, res) => {
 
 const updateAvatar = async (req, res) => {
 	const { _id } = req.user;
+	const { url: avatarURL } = await cloudinary.uploader.upload(req.file.path, {
+		folder: 'avatars',
+	});
+	await fs.unlink(req.file.path);
 
-	const { path: oldPath, filename } = req.file;
+	// const { path: oldPath, filename } = req.file;
+	// const newPath = path.join(avatarsPath, filename);
+	// const img = await Jimp.read(oldPath);
+	// await img.resize(250, 250).writeAsync(oldPath);
+	// await fs.rename(oldPath, newPath);
+	// const avatarURL = path.join('avatars', filename);
 
-	const newPath = path.join(avatarsPath, filename);
+	const result = await User.findByIdAndUpdate(
+		_id,
+		{ avatarURL },
+		{ new: true }
+	);
 
-	const img = await Jimp.read(oldPath);
-	await img.resize(250, 250).writeAsync(oldPath);
-
-	await fs.rename(oldPath, newPath);
-	const avatarURL = path.join('avatars', filename);
-
-	await User.findByIdAndUpdate(_id, { avatarURL }, { new: true });
-
-	res.status(200).json({ avatarURL });
+	res.status(200).json({ result });
 };
 
 export default {
