@@ -33,7 +33,7 @@ const signup = async (req, res) => {
 		name: null,
 		gender: null,
 		email: email,
-		waterRate: 2000,
+		waterRate: null,
 		password: hashPassword,
 		verificationToken,
 		avatarURL: avatar,
@@ -61,7 +61,7 @@ const verify = async (req, res) => {
 };
 
 const signin = async (req, res) => {
-	const { email, password, gender, _id, name, waterRate } = req.body;
+	const { email, password} = req.body;
 
 	const user = await User.findOne({ email });
 	if (!user) {
@@ -85,7 +85,7 @@ const signin = async (req, res) => {
 	const newUser = await User.findByIdAndUpdate(user._id, { token });
 
 	res.json({
-		...req.body,
+		// ...req.body,
 		newUser
 	});
 };
