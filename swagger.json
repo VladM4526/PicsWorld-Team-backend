@@ -183,7 +183,6 @@
 				}
 			}
 		},
-
 		"/api/users/current": {
 			"get": {
 				"tags": ["User"],
@@ -209,7 +208,6 @@
 				}
 			}
 		},
-
 		"/api/users/avatars": {
 			"patch": {
 				"tags": ["User"],
@@ -258,7 +256,7 @@
 				"parameters": [],
 				"security": [{ "bearer": [] }],
 				"requestBody": {
-					"description": "Change user info",
+					"description": "Change user info (one or more)",
 					"required": true,
 					"content": {
 						"application/json": {
@@ -290,19 +288,11 @@
 				}
 			}
 		},
-		"/api/users/waterrate/{userId}": {
+		"/api/users/waterrate": {
 			"put": {
 				"tags": ["WaterRate"],
 				"summary": "Put water rate",
-				"parameters": [
-					{
-						"in": "path",
-						"name": "userId",
-						"required": "true",
-						"type": "string",
-						"description": "userId"
-					}
-				],
+				"parameters": [],
 				"security": [{ "bearer": [] }],
 				"requestBody": {
 					"description": "Change user water rate",
@@ -339,7 +329,6 @@
 				"summary": "Create water note",
 				"parameters": [],
 				"security": [{ "bearer": [] }],
-
 				"requestBody": {
 					"description": "Create water note object",
 					"required": true,
@@ -375,13 +364,20 @@
 				}
 			}
 		},
-		"/api/water/update": {
+		"/api/water/update/{id}": {
 			"patch": {
 				"tags": ["Water"],
 				"summary": "Update water note",
-				"parameters": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "objectId",
+						"required": "true",
+						"type": "string",
+						"description": "objectId"
+					}
+				],
 				"security": [{ "bearer": [] }],
-
 				"requestBody": {
 					"description": "Update water note object",
 					"required": true,
@@ -417,46 +413,58 @@
 				}
 			}
 		},
+		"/api/water/delete/{id}": {
+			"delete": {
+				"tags": ["Water"],
+				"summary": "Delete Water Note",
+				"parameters": [
+					{
+						"in": "path",
+						"name": "objectId",
+						"required": "true",
+						"type": "string",
+						"description": "objectId"
+					}
+				],
+				"security": [{ "bearer": [] }],
+				"responses": {
+					"204": {
+						"description": "Water note successfully deleted",
+						"content": {}
+					},
+					"401": {
+						"description": "Bearer Auth failed",
+						"content": {}
+					}
+				}
+			}
+		},
 		"/api/water/today": {
 			"get": {
 				"tags": ["Today"],
 				"summary": "Daily water consumption",
 				"parameters": [],
 				"security": [{ "bearer": [] }],
-				"requestBody": {
-					"description": "Create water note object",
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/TodayRequest"
+				"responses": {
+					"201": {
+						"description": "The water consumption for a day is here",
+
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/TodayResponse"
+								}
 							}
 						}
 					}
 				},
-				"responses": {
-					"201": {
-						"description": "The water consumption for a day is here",
-						"content": {
-							"201": {
-								"description": "Successful operation",
-								"content": {
-									"application/json": {
-										"schema": {
-											"$ref": "#/components/schemas/TodayResponse"
-										}
-									}
-								}
-							}
-						}
-					},
-					"400": {
-						"description": "Validation error",
-						"content": {
-							"application/json": {
-								"schema": {
-									"$ref": "#/components/schemas/BadRequestResponse"
-								}
+
+				"400": {
+					"description": "Validation error",
+					"content": {
+						"application/json": {
+							"schema": {
+								"$ref": "#/components/schemas/BadRequestResponse"
 							}
 						}
 					}
@@ -473,37 +481,24 @@
 						"name": "month",
 						"required": "true",
 						"type": "string",
-						"description": "month"
+						"description": "month",
+						"example": "YYYY-MM"
 					}
 				],
 				"security": [{ "bearer": [] }],
-				"requestBody": {
-					"description": "Monthly water consumption, day by day",
-					"required": true,
-					"content": {
-						"application/json": {
-							"schema": {
-								"$ref": "#/components/schemas/MonthRequest"
-							}
-						}
-					}
-				},
+
 				"responses": {
 					"201": {
 						"description": "Monthly water consumption is here",
 						"content": {
-							"201": {
-								"description": "Successful operation",
-								"content": {
-									"application/json": {
-										"schema": {
-											"$ref": "#/components/schemas/MonthResponse"
-										}
-									}
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/MonthResponse"
 								}
 							}
 						}
 					},
+
 					"400": {
 						"description": "Validation error",
 						"content": {
@@ -569,14 +564,58 @@
 			},
 			"SigninResponse": {
 				"type": "object",
-				"required": ["user", "token"],
 				"properties": {
-					"user": {
-						"$ref": "#/components/schemas/SignupResponse"
-					},
-					"token": {
-						"type": "string",
-						"example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWQiOiIyOWI4ZmZmNS0xN2NjLTQ5NTYtOTViZC1jN2U3N2FkZDEwOWEiLCJpYXQiOjE2ODE4OTM3MzEsImV4cCI6MTAwMDAwMDE2ODE4OTM3MzJ9.hQpNKIj4SR7Gm9waUMn7hzwKQyqwKrniL_qSW"
+					"newUser": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string",
+								"description": "User`s id",
+								"example": "9578a252-1d7a-4fcc-82e2-d1a528dd3d0c"
+							},
+							"name": {
+								"type": "string",
+								"description": "User`s name",
+								"maxLength": "32"
+							},
+							"email": {
+								"type": "string",
+								"description": "User`s email",
+								"format": "email"
+							},
+							"password": {
+								"type": "string",
+								"description": "User`s password",
+								"example": "abcde123",
+								"minLength": "8",
+								"maxLength": "64"
+							},
+							"gender": {
+								"type": "string",
+								"description": "User`s gender"
+							},
+							"waterRate": {
+								"type": "integer",
+								"description": "User`s water rate"
+							},
+							"verify": {
+								"type": "boolean",
+								"description": "verification"
+							},
+							"verificationToken": {
+								"type": "string",
+								"description": "verificationToken"
+							},
+							"avatarURL": {
+								"type": "string",
+								"description": "User`s avatar",
+								"example": "http://www.cloudinary.com/avatar.png"
+							},
+							"token": {
+								"type": "string",
+								"example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWQiOiIyOWI4ZmZmNS0xN2NjLTQ5NTYtOTViZC1jN2U3N2FkZDEwOWEiLCJpYXQiOjE2ODE4OTM3MzEsImV4cCI6MTAwMDAwMDE2ODE4OTM3MzJ9.hQpNKIj4SR7Gm9waUMn7hzwKQyqwKrniL_qSW"
+							}
+						}
 					}
 				}
 			},
@@ -619,7 +658,7 @@
 			},
 			"CurrentUserResponse": {
 				"type": "object",
-				"required": ["id", "name", "email", "waterRate"],
+				"required": ["id", "name", "email", "gender", "waterRate", "avatarURL"],
 				"properties": {
 					"id": {
 						"type": "string",
@@ -636,9 +675,19 @@
 						"description": "User`s email",
 						"format": "email"
 					},
+					"gender": {
+						"type": "string",
+						"description": "User`s gender",
+						"example": "Male / Female"
+					},
 					"waterRate": {
 						"type": "integer",
 						"description": "User`s water rate"
+					},
+					"avatarURL": {
+						"type": "string",
+						"description": "User`s avatar",
+						"example": "http://www.cloudinary.com/avatar.png"
 					}
 				}
 			},
@@ -655,9 +704,10 @@
 				"type": "object",
 				"required": ["avatar"],
 				"properties": {
-					"avatar": {
-						"type": "file",
-						"description": "User`s avatar"
+					"avatarURL": {
+						"type": "string",
+						"description": "User`s avatar",
+						"example": "http://www.cloudinary.com/avatar.png"
 					}
 				}
 			},
@@ -676,7 +726,7 @@
 					},
 					"gender": {
 						"type": "string",
-						"description": "User`s gender"
+						"description": "Male / Female"
 					},
 					"currentPassword": {
 						"type": "string",
@@ -697,7 +747,7 @@
 			"UserInfoResponse": {
 				"type": "object",
 				"properties": {
-					"id": {
+					"userId": {
 						"type": "string",
 						"description": "User`s id",
 						"example": "9578a252-1d7a-4fcc-82e2-d1a528dd3d0c"
@@ -712,16 +762,37 @@
 						"description": "User`s email",
 						"format": "email"
 					},
-					"gender": {
-						"type": "string",
-						"description": "User`s gender"
-					},
 					"password": {
 						"type": "string",
 						"description": "User`s password",
 						"example": "abcde123",
 						"minLength": "8",
 						"maxLength": "64"
+					},
+					"gender": {
+						"type": "string",
+						"description": "User`s gender"
+					},
+					"waterRate": {
+						"type": "integer",
+						"description": "User`s water rate"
+					},
+					"verify": {
+						"type": "boolean",
+						"description": "verification"
+					},
+					"verificationToken": {
+						"type": "string",
+						"description": "verificationToken"
+					},
+					"avatarURL": {
+						"type": "string",
+						"description": "User`s avatar",
+						"example": "http://www.cloudinary.com/avatar.png"
+					},
+					"token": {
+						"type": "string",
+						"example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWQiOiIyOWI4ZmZmNS0xN2NjLTQ5NTYtOTViZC1jN2U3N2FkZDEwOWEiLCJpYXQiOjE2ODE4OTM3MzEsImV4cCI6MTAwMDAwMDE2ODE4OTM3MzJ9.hQpNKIj4SR7Gm9waUMn7hzwKQyqwKrniL_qSW"
 					}
 				}
 			},
@@ -805,6 +876,11 @@
 			"UpdateWaterNoteResponse": {
 				"type": "object",
 				"properties": {
+					"id": {
+						"type": "string",
+						"description": "objectId",
+						"example": "300"
+					},
 					"date": {
 						"type": "string",
 						"description": "Date of water note updating",
@@ -819,40 +895,131 @@
 						"type": "string",
 						"description": "The owner identification",
 						"example": ""
-					},
-					"id": {
-						"type": "string",
-						"description": "Id of the Note",
-						"example": "300"
 					}
 				}
 			},
-			"TodayRequest": {
-				"type": "object",
-				"properties": {}
-			},
 			"TodayResponse": {
-				"type": "object",
-				"properties": {}
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"userId": {
+							"type": "string",
+							"description": "User`s id",
+							"example": "9578a252-1d7a-4fcc-82e2-d1a528dd3d0c"
+						},
+						"waterRate": {
+							"type": "integer",
+							"description": "User`s water rate"
+						},
+						"waterRecords": {
+							"type": "array",
+							"items": {
+								"type": "object",
+								"properties": {
+									"id": {
+										"type": "string",
+										"description": "objectId",
+										"example": "9578a252-1d7a-4fcc-82e2-d1a528dd3d0c"
+									},
+									"date": {
+										"type": "string",
+										"description": "Date of water note creation",
+										"example": "2023-12-12 12:12"
+									},
+									"waterVolume": {
+										"type": "integer",
+										"description": "The volume of water",
+										"example": "300"
+									},
+									"owner": {
+										"type": "string",
+										"description": "The owner identification",
+										"example": "65904053bb27f687079e5093"
+									},
+									"user": {
+										"type": "object",
+										"properties": {
+											"id": {
+												"type": "string",
+												"description": "User`s id",
+												"example": "9578a252-1d7a-4fcc-82e2-d1a528dd3d0c"
+											},
+											"name": {
+												"type": "string",
+												"description": "User`s name",
+												"maxLength": "32"
+											},
+											"email": {
+												"type": "string",
+												"description": "User`s email",
+												"format": "email"
+											},
+											"password": {
+												"type": "string",
+												"description": "User`s password",
+												"example": "abcde123",
+												"minLength": "8",
+												"maxLength": "64"
+											},
+											"gender": {
+												"type": "string",
+												"description": "User`s gender"
+											},
+											"waterRate": {
+												"type": "integer",
+												"description": "User`s water rate"
+											},
+											"verify": {
+												"type": "boolean",
+												"description": "verification"
+											},
+											"verificationToken": {
+												"type": "string",
+												"description": "verificationToken"
+											},
+											"avatarURL": {
+												"type": "string",
+												"description": "User`s avatar",
+												"example": "http://www.cloudinary.com/avatar.png"
+											},
+											"token": {
+												"type": "string",
+												"example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWQiOiIyOWI4ZmZmNS0xN2NjLTQ5NTYtOTViZC1jN2U3N2FkZDEwOWEiLCJpYXQiOjE2ODE4OTM3MzEsImV4cCI6MTAwMDAwMDE2ODE4OTM3MzJ9.hQpNKIj4SR7Gm9waUMn7hzwKQyqwKrniL_qSW"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
 			},
-			"MonthRequest": {},
 			"MonthResponse": {
-				"type": "object",
-				"properties": {
-					"id": {
-						"type": "string",
-						"description": "Id of the Note",
-						"example": "300"
-					},
-					"totalWaterVolume": {
-						"type": "integer",
-						"description": "Total volume of water",
-						"example": "500"
-					},
-					"count": {
-						"type": "integer",
-						"description": "The counting of water notes",
-						"example": "5"
+				"type": "array",
+				"items": {
+					"type": "object",
+					"properties": {
+						"date": {
+							"type": "string",
+							"description": "Date of water note creation",
+							"example": "2023-12-12 12:12"
+						},
+						"count": {
+							"type": "integer",
+							"description": "The counting of water notes",
+							"example": "5"
+						},
+						"dailyWaterRate": {
+							"type": "string",
+							"description": "Daily water rate",
+							"example": "1.5 L"
+						},
+						"percentage": {
+							"type": "string",
+							"description": "water trinkt to daily water rate",
+							"example": "17%"
+						}
 					}
 				}
 			}

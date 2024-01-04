@@ -6,7 +6,6 @@ import User from '../models/users.js';
 
 import fs from 'fs/promises';
 import path from 'path';
-// import { fileURLToPath } from 'url';
 
 import HttpError from '../utils/helpers/httpErrors.js';
 
@@ -15,11 +14,6 @@ import cloudinary from '../utils/helpers/cloudinary.js';
 import ctrlWrapper from '../utils/decorators/ctrlWrapper.js';
 
 dotenv.config();
-
-// const __filename = fileURLToPath(import.meta.url);
-// const __dirname = path.dirname(__filename);
-
-// const avatarsPath = path.join(__dirname, '../', 'public', 'avatars');
 
 const getCurrent = async (req, res) => {
 	const { _id, name, email, waterRate, gender, avatarURL } = req.user;
@@ -102,13 +96,6 @@ const updateAvatar = async (req, res) => {
 		folder: 'avatars',
 	});
 	await fs.unlink(req.file.path);
-
-	// const { path: oldPath, filename } = req.file;
-	// const newPath = path.join(avatarsPath, filename);
-	// const img = await Jimp.read(oldPath);
-	// await img.resize(250, 250).writeAsync(oldPath);
-	// await fs.rename(oldPath, newPath);
-	// const avatarURL = path.join('avatars', filename);
 
 	const result = await User.findByIdAndUpdate(
 		_id,
