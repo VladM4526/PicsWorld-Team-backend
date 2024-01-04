@@ -24,8 +24,8 @@ const authenticate = async (req, res, next) => {
 		throw new HttpError(401, 'Invalid signature');
 	}
 	try {
-		const { contactId } = jwt.verify(token, JWT_SECRET);
-		const user = await User.findById(contactId);
+		const { userId } = jwt.verify(token, JWT_SECRET);
+		const user = await User.findById(userId);
 		if (!user || !user.token || user.token !== token) {
 			throw new HttpError(401, 'User not found');
 		}
