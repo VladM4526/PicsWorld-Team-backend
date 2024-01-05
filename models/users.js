@@ -28,7 +28,7 @@ const userSchema = new Schema(
 		},
 		gender: {
 			type: String,
-			enum: ['mail', 'femail'],
+			enum: ['male', 'female'],
 			//   default: "mail"
 		},
 		waterRate: {
