@@ -99,15 +99,26 @@ const todayWater = async(req, res) => {
 				waterRate: { $first: "$user.waterRate" },
 				number_of_records: { $sum: 1 },
 				totalWaterVolume: { $sum: "$waterVolume" }, 
-				waterRecords: { $push: "$$ROOT" },
+				waterRecords: {
+					$push: {
+					  _id: "$_id",
+					  waterVolume: "$waterVolume",
+					  time: { $dateToString: { format: "%H:%M", date: "$date" } },
+					},
+				  },
+				
 			}
 		},
+		{
+			$sort: {
+				"waterRecords.time": 1
+			}
+		  },
 		{
 			$project: {
 			_id: 0,
 			userId: 1,
 			waterRate: 1,
-			// date: 1,
 			percentage: { $concat: [
 				{  $toString: {
 					$round: [  
@@ -124,6 +135,7 @@ const todayWater = async(req, res) => {
 			waterRecords: 1,
 		  },
 		 },
+		 
 		
 	  ];
 	  
