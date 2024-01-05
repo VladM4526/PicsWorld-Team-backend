@@ -13,10 +13,8 @@ const createWaterNote = async (req, res) => {
 
 		const currentDate = new Date();
 
-        // Отримати час з форми
         const [hours, minutes] = date.split(':');
 
-        // Встановити години та хвилини з введеного часу
         currentDate.setHours(Number(hours) + 2, minutes, 0, 0);
 		// const newDate = new Date(date);
         // newDate.setHours(newDate.getHours() + 2);
@@ -40,12 +38,15 @@ const updateWaterNote = async (req, res) => {
 		const { date, waterVolume } = req.body;
 		const ownerId = req.user._id;
 
-		const newDate = new Date(date);
-        newDate.setHours(newDate.getHours() + 2);
+		const currentDate = new Date();
+
+        const [hours, minutes] = date.split(':');
+
+        currentDate.setHours(Number(hours) + 2, minutes, 0, 0);
 
 		const updatedWaterNote = await Water.findOneAndUpdate(
 			{ _id: req.params.id, owner: ownerId },
-			{ date: newDate, waterVolume:waterVolume },
+			{ date: currentDate, waterVolume:waterVolume },
 			{ new: true }
 		);
 
