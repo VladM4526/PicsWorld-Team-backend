@@ -5,6 +5,8 @@ import {
 import HttpError from '../utils/helpers/httpErrors.js';
 
 import ctrlWrapper from '../utils/decorators/ctrlWrapper.js';
+import todayWaterNotes from '../servises/todayWaterNotes.js';
+import monthWaterNotes from '../servises/monthWaterNotes.js';
 
 const createWaterNote = async (req, res) => {
 	try {
@@ -82,190 +84,13 @@ const deleteWaterNote = async (req, res) => {
 };
 
 const todayWater = async(req, res) => {
-	const userId = req.user._id;
-	const todayDate = new Date();
+	const result = await todayWaterNotes(req.user._id);
 
-	const startDay = new Date(todayDate.toISOString().slice(0, 10));
-
-	const aggregationList = [
-		{
-			$match: {
-				owner: userId,
-				date: {
-					$gte: startDay,
-					$lt: new Date(startDay.getTime() + 24 * 60 * 60 * 1000)
-				}
-			}
-		},
-		{
-			$lookup: {
-			    from: "users",
-			    localField: "owner",
-			    foreignField: "_id",
-			    as: "user"
-			}
-		},
-		{
-			$unwind: "$user"
-		},
-		{
-			$group: {
-				_id: null,
-				userId: { $first: "$user._id" },
-				waterRate: { $first: "$user.waterRate" },
-				number_of_records: { $sum: 1 },
-				totalWaterVolume: { $sum: "$waterVolume" }, 
-				waterRecords: {
-					$push: {
-					  _id: "$_id",
-					  waterVolume: "$waterVolume",
-					  time: { $dateToString: { format: "%H:%M", date: "$date" } },
-					},
-				  },
-				
-			}
-		},
-		{
-			$sort: {
-				"waterRecords.time": 1
-			}
-		  },
-		{
-			$project: {
-			_id: 0,
-			userId: 1,
-			waterRate: 1,
-			percentage: { $concat: [
-				{  $toString: {
-					$round: [  
-						{
-						 $multiply: [ { $divide: ["$totalWaterVolume", "$waterRate"] }, 100,	],
-					 	 },
-					  0,
-					],
-				  },
-				},
-				"%",
-			  ],
-			},
-			waterRecords: 1,
-		  },
-		 },
-		 
-		
-	  ];
-	  
-	  const result = await Water.aggregate(aggregationList);
-
-	  res.json(result)
+	res.json(result)
 };
 
 const monthWater = async(req, res) => {
-	const userId = req.user._id;
-	const date = req.params.month;
-	const [year, month] = date.split("-").map(Number);
-
-	let yearLt = year;
-	let monthLt = month;
-	 
-    if (month === 12){
-		yearLt = year+1;
-	    monthLt = month-12;
-	}
-    
-	const aggregationList = [
-		{
-			$match: {
-			  owner: userId,
-			  date: {
-				$gte: new Date(`${year}-${month}-01`),
-				$lt: new Date(`${yearLt}-${parseInt(monthLt) + 1}-01`)
-			  }
-			}
-		  },
-		  {
-			$lookup: {
-			    from: "users",
-			    localField: "owner",
-			    foreignField: "_id",
-			    as: "user"
-			}
-		},
-		{
-			$unwind: "$user"
-		},
-		  {
-			$group: {
-			  _id: { $dayOfMonth: "$date" },
-			  date: {
-				$first: {
-					$concat: [
-						
-						{ $dateToString: { format: "%d", date: "$date" } },
-						",",
-					  {
-						$switch: {
-						  branches: [
-							{ case: { $eq: [{ $month: "$date" }, 1] }, then: "January" },
-							{ case: { $eq: [{ $month: "$date" }, 2] }, then: "February" },
-							{ case: { $eq: [{ $month: "$date" }, 3] }, then: "March" },
-							{ case: { $eq: [{ $month: "$date" }, 4] }, then: "April" },
-							{ case: { $eq: [{ $month: "$date" }, 5] }, then: "May" },
-							{ case: { $eq: [{ $month: "$date" }, 6] }, then: "June" },
-							{ case: { $eq: [{ $month: "$date" }, 7] }, then: "July" },
-							{ case: { $eq: [{ $month: "$date" }, 8] }, then: "August" },
-							{ case: { $eq: [{ $month: "$date" }, 9] }, then: "September" },
-							{ case: { $eq: [{ $month: "$date" }, 10] }, then: "October" },
-							{ case: { $eq: [{ $month: "$date" }, 11] }, then: "November" },
-							{ case: { $eq: [{ $month: "$date" }, 12] }, then: "December" },
-						  ],
-						  default: ""
-						}
-					  }
-					 
-					]
-				  }
-			  },
-			  waterRate: { $first: "$user.waterRate" },
-			  totalWaterVolume: { $sum: "$waterVolume" },
-			  count: { $sum: 1 }
-			}
-		  },
-		{
-			$project: {
-			  _id: 0,
-			  date:1,
-			  dailyWaterRate: {
-				$concat: [
-				  { $toString: { $divide: ["$waterRate", 1000] } },
-				  " L",
-				],
-			  },
-			  count: 1,
-			  percentage: {
-				$concat: [
-				  {
-					$toString: {
-					  $round: [
-						{
-						  $multiply: [{ $divide: ["$totalWaterVolume", "$waterRate"] },100,],
-						},0,
-					  ],
-					},
-				  },
-				  "%",
-				],
-			  },
-			},
-		  },
-		  {
-			$sort: {
-			  date: 1
-			}
-		  }
-	];
-
-	const result = await Water.aggregate(aggregationList);
+	const result = await monthWaterNotes(req.user._id, req.params.month)
 
 	res.json(result)
 }
