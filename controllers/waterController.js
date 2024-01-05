@@ -170,7 +170,24 @@ const monthWater = async(req, res) => {
 			$group: {
 			  _id: { $dayOfMonth: "$date" },
 			  date: {
-				$first: { $dateToString: { format: "%B-%d", date: "$date" } },
+				// $first: { 
+				// 	$dateToString: { format: "%d", date: "$date" } },
+				$first: {
+					$concat: [
+					  {
+						$switch: {
+						  branches: [
+							{ case: { $eq: [{ $month: "$date" }, 1] }, then: "January" },
+							{ case: { $eq: [{ $month: "$date" }, 2] }, then: "лютого" },
+							// Додайте решту місяців
+						  ],
+						  default: ""
+						}
+					  },
+					  "-",
+					  { $dateToString: { format: "%d", date: "$date" } }
+					]
+				  }
 			  },
 			  waterRate: { $first: "$user.waterRate" },
 			  totalWaterVolume: { $sum: "$waterVolume" },
