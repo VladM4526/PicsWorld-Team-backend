@@ -170,21 +170,28 @@ const monthWater = async(req, res) => {
 			$group: {
 			  _id: { $dayOfMonth: "$date" },
 			  date: {
-				// $first: { 
-				// 	$dateToString: { format: "%d", date: "$date" } },
 				$first: {
 					$concat: [
 					  {
 						$switch: {
 						  branches: [
 							{ case: { $eq: [{ $month: "$date" }, 1] }, then: "January" },
-							{ case: { $eq: [{ $month: "$date" }, 2] }, then: "лютого" },
-							// Додайте решту місяців
+							{ case: { $eq: [{ $month: "$date" }, 2] }, then: "February" },
+							{ case: { $eq: [{ $month: "$date" }, 3] }, then: "March" },
+							{ case: { $eq: [{ $month: "$date" }, 4] }, then: "April" },
+							{ case: { $eq: [{ $month: "$date" }, 5] }, then: "May" },
+							{ case: { $eq: [{ $month: "$date" }, 6] }, then: "June" },
+							{ case: { $eq: [{ $month: "$date" }, 7] }, then: "July" },
+							{ case: { $eq: [{ $month: "$date" }, 8] }, then: "August" },
+							{ case: { $eq: [{ $month: "$date" }, 9] }, then: "September" },
+							{ case: { $eq: [{ $month: "$date" }, 10] }, then: "October" },
+							{ case: { $eq: [{ $month: "$date" }, 11] }, then: "November" },
+							{ case: { $eq: [{ $month: "$date" }, 12] }, then: "December" },
 						  ],
 						  default: ""
 						}
 					  },
-					  "-",
+					  ",",
 					  { $dateToString: { format: "%d", date: "$date" } }
 					]
 				  }
@@ -221,6 +228,11 @@ const monthWater = async(req, res) => {
 			  },
 			},
 		  },
+		  {
+			$sort: {
+			  date: 1
+			}
+		  }
 	];
 
 	const result = await Water.aggregate(aggregationList);
