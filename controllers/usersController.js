@@ -1,12 +1,9 @@
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
-import Jimp from 'jimp';
 
 import User from '../models/users.js';
 
 import fs from 'fs/promises';
-import path from 'path';
-
 import HttpError from '../utils/helpers/httpErrors.js';
 
 import cloudinary from '../utils/helpers/cloudinary.js';

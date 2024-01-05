@@ -3,9 +3,7 @@ import {
 	handleMongooseError,
 	preUpdate,
 } from '../utils/helpers/handleMongooseError.js';
-// const {createContactValidationSchema,
-//       updateContactValidationSchema,
-//       contactFavoriteSchema }= require('../utils/validation/contactValidationSchemas')
+
 
 const waterNotesSchema = new Schema(
 	{

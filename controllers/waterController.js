@@ -11,12 +11,19 @@ const createWaterNote = async (req, res) => {
 		const { date, waterVolume } = req.body;
 		const owner = req.user._id;
 
-		const newDate = new Date(date);
-        newDate.setHours(newDate.getHours() + 2);
+		const currentDate = new Date();
+
+        // Отримати час з форми
+        const [hours, minutes] = date.split(':');
+
+        // Встановити години та хвилини з введеного часу
+        currentDate.setHours(Number(hours) + 2, minutes, 0, 0);
+		// const newDate = new Date(date);
+        // newDate.setHours(newDate.getHours() + 2);
 
 		const newWaterNote = await Water.create({ 
 			...req.body,
-			date:newDate, 
+			date:currentDate, 
 			waterVolume:waterVolume, 
 			owner:owner
 		 });
