@@ -79,6 +79,10 @@ const updateUserInfo = async (req, res) => {
 		existingUser.name = name;
 	}
 	if (email) {
+		const user = await User.findOne({ email });
+	    if (user) {
+		throw new HttpError(409, 'User with such email already exists');
+	}
 		existingUser.email = email;
 	}
 	if (gender) {
