@@ -11,9 +11,12 @@ const createWaterNote = async (req, res) => {
 		const { date, waterVolume } = req.body;
 		const owner = req.user._id;
 
+		const newDate = new Date(date);
+        newDate.setHours(newDate.getHours() + 2);
+
 		const newWaterNote = await Water.create({ 
 			...req.body,
-			date:date, 
+			date:newDate, 
 			waterVolume:waterVolume, 
 			owner:owner
 		 });
@@ -30,9 +33,12 @@ const updateWaterNote = async (req, res) => {
 		const { date, waterVolume } = req.body;
 		const ownerId = req.user._id;
 
+		const newDate = new Date(date);
+        newDate.setHours(newDate.getHours() + 2);
+
 		const updatedWaterNote = await Water.findOneAndUpdate(
 			{ _id: req.params.id, owner: ownerId },
-			{ date, waterVolume },
+			{ date: newDate, waterVolume:waterVolume },
 			{ new: true }
 		);
 
@@ -59,7 +65,9 @@ const deleteWaterNote = async (req, res) => {
 			throw new HttpError (404, 'Water note not found');
 		}
 
-		res.json(deletedWaterNote);
+		res.json({
+			message: 'Water note deleted',
+		});
 	} catch (error) {
 		handleMongooseError(error, res);
 	}
