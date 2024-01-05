@@ -63,8 +63,8 @@ const verify = async (req, res) => {
 const signin = async (req, res) => {
 	const { email, password} = req.body;
 
-	const user = await User.findOne({ email });
-	if (!user) {
+	const newUser = await User.findOne({ email });
+	if (!newUser) {
 		throw new HttpError(401, 'User with such email not found');
 	}
 
@@ -82,11 +82,10 @@ const signin = async (req, res) => {
 	};
 
 	const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '23h' });
-	const newUser = await User.findByIdAndUpdate(user._id, { token });
+	const user = await User.findByIdAndUpdate(user._id, { token });
 
 	res.json({
-		// ...req.body,
-		newUser
+		user
 	});
 };
 
