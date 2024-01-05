@@ -56,7 +56,7 @@ const waterRate = async (req, res) => {
 };
 
 const updateUserInfo = async (req, res) => {
-	const { name, email, gender, waterRate, oldPassword, newPassword} =
+	const { name, email, gender, oldPassword, newPassword} =
 		req.body;
 	const userId = req.user._id;
 
@@ -86,9 +86,6 @@ const updateUserInfo = async (req, res) => {
 	}
 	if (gender) {
 		existingUser.gender = gender;
-	}
-	if (waterRate) {
-		existingUser.waterRate = waterRate;
 	}
 
 

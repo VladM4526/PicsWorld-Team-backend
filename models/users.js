@@ -35,7 +35,7 @@ const userSchema = new Schema(
 			type: Number,
 			required: [true, 'Set rate'],
 			min: 0,
-			max: 5000,
+			max: 15000,
 			default: 0,
 		},
 		verify: {
