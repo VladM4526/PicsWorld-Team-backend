@@ -63,8 +63,8 @@ const verify = async (req, res) => {
 const signin = async (req, res) => {
 	const { email, password} = req.body;
 
-	const newUser = await User.findOne({ email });
-	if (!newUser) {
+	const userIn = await User.findOne({ email });
+	if (!userIn) {
 		throw new HttpError(401, 'User with such email not found');
 	}
 
@@ -72,17 +72,17 @@ const signin = async (req, res) => {
 	// 	throw new HttpError(401, 'email not verify');
 	// }
 
-	const passwordCompare = await bcrypt.compare(password, user.password);
+	const passwordCompare = await bcrypt.compare(password, userIn.password);
 	if (!passwordCompare) {
 		throw new HttpError(403, 'Provided password is incorrect');
 	}
 
 	const payload = {
-		userId: user._id,
+		userId: userIn._id,
 	};
 
 	const token = jwt.sign(payload, JWT_SECRET, { expiresIn: '23h' });
-	const user = await User.findByIdAndUpdate(user._id, { token });
+	const user = await User.findByIdAndUpdate(userIn._id, { token });
 
 	res.json({
 		user
