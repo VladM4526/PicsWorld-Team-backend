@@ -51,7 +51,10 @@ const waterRate = async (req, res) => {
 };
 
 const updateUserInfo = async (req, res) => {
-	const { name, email, gender, waterRate, oldPassword, newPassword } = req.body;
+  
+	const { name, email, gender, oldPassword, newPassword} =
+		req.body;
+  
 	const userId = req.user._id;
 
 	const existingUser = await User.findById(userId);
@@ -80,9 +83,6 @@ const updateUserInfo = async (req, res) => {
 	}
 	if (gender) {
 		existingUser.gender = gender;
-	}
-	if (waterRate) {
-		existingUser.waterRate = waterRate;
 	}
 
 	const updatedUser = await existingUser.save();
