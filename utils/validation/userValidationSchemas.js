@@ -1,6 +1,7 @@
 import Joi from 'joi';
 
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+const genderList = ["male", "female"];
 
 const registerSchema = Joi.object({
 	email: Joi.string().required().pattern(new RegExp(emailRegexp)).messages({
@@ -50,9 +51,9 @@ const updateSchema = Joi.object({
 		'string.max': `The name must be shorter than 32 characters`,
 	}),
 	
-	// gender: Joi.string().valid('male', 'female').messages({
-	// 	'any.only': 'Invalid gender value',
-	//   }),
+	gender: Joi.string().valid('male', 'female').messages({
+		'any.only': 'Invalid gender value',
+	  }),
 
 });
 

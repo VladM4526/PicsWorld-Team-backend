@@ -1,12 +1,9 @@
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
-import Jimp from 'jimp';
 
 import User from '../models/users.js';
 
 import fs from 'fs/promises';
-import path from 'path';
-
 import HttpError from '../utils/helpers/httpErrors.js';
 
 import cloudinary from '../utils/helpers/cloudinary.js';
@@ -79,6 +76,10 @@ const updateUserInfo = async (req, res) => {
 		existingUser.name = name;
 	}
 	if (email) {
+		const user = await User.findOne({ email });
+	    if (user) {
+		throw new HttpError(409, 'User with such email already exists');
+	}
 		existingUser.email = email;
 	}
 	if (gender) {
