@@ -172,6 +172,9 @@ const monthWater = async(req, res) => {
 			  date: {
 				$first: {
 					$concat: [
+						
+						{ $dateToString: { format: "%d", date: "$date" } },
+						",",
 					  {
 						$switch: {
 						  branches: [
@@ -190,9 +193,8 @@ const monthWater = async(req, res) => {
 						  ],
 						  default: ""
 						}
-					  },
-					  ",",
-					  { $dateToString: { format: "%d", date: "$date" } }
+					  }
+					 
 					]
 				  }
 			  },
