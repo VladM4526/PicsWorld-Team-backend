@@ -2,9 +2,9 @@ import Water from '../models/water.js';
 import { handleMongooseError } from '../utils/helpers/index.js';
 import { HttpError } from '../utils/helpers/index.js';
 
-import ctrlWrapper from '../utils/decorators/ctrlWrapper.js';
-import todayWaterNotes from '../servises/todayWaterNotes.js';
-import monthWaterNotes from '../servises/monthWaterNotes.js';
+import { ctrlWrapper } from '../utils/decorators/index.js';
+import { todayWaterNotes } from '../servises/index.js';
+import { monthWaterNotes } from '../servises/index.js';
 
 const createWaterNote = async (req, res) => {
 	try {

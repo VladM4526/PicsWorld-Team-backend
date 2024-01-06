@@ -7,7 +7,7 @@ import jwt from 'jsonwebtoken';
 import { generateAvatarUrl } from '../utils/helpers/index.js';
 
 import { HttpError } from '../utils/helpers/index.js';
-import ctrlWrapper from '../utils/decorators/ctrlWrapper.js';
+import { ctrlWrapper } from '../utils/decorators/index.js';
 import { token } from 'morgan';
 
 dotenv.config();
