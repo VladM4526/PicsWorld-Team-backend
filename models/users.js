@@ -33,7 +33,7 @@ const userSchema = new Schema(
 		},
 		waterRate: {
 			type: Number,
-			required: [true, 'Set rate'],
+			// required: [true, 'Set rate'],
 			min: 0,
 			max: 15000,
 			default: 0,
