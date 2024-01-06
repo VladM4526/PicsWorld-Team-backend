@@ -4,11 +4,11 @@ import dotenv from 'dotenv';
 import User from '../models/users.js';
 
 import fs from 'fs/promises';
-import HttpError from '../utils/helpers/httpErrors.js';
+import { HttpError } from '../utils/helpers/index.js';
 
-import cloudinary from '../utils/helpers/cloudinary.js';
+import { cloudinary } from '../utils/helpers/index.js';
 
-import ctrlWrapper from '../utils/decorators/ctrlWrapper.js';
+import { ctrlWrapper } from '../utils/decorators/index.js';
 
 dotenv.config();
 
@@ -20,8 +20,7 @@ const getCurrent = async (req, res) => {
 		email,
 		gender,
 		waterRate,
-		avatarURL
-
+		avatarURL,
 	});
 };
 
@@ -48,10 +47,8 @@ const waterRate = async (req, res) => {
 };
 
 const updateUserInfo = async (req, res) => {
-  
-	const { name, email, gender, oldPassword, newPassword} =
-		req.body;
-  
+	const { name, email, gender, oldPassword, newPassword } = req.body;
+
 	const userId = req.user._id;
 
 	const existingUser = await User.findById(userId);
@@ -77,9 +74,9 @@ const updateUserInfo = async (req, res) => {
 	}
 	if (email) {
 		const user = await User.findOne({ email });
-	    if (user) {
-		throw new HttpError(409, 'User with such email already exists');
-	}
+		if (user) {
+			throw new HttpError(409, 'User with such email already exists');
+		}
 		existingUser.email = email;
 	}
 	if (gender) {

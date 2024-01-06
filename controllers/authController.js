@@ -4,10 +4,10 @@ import { nanoid } from 'nanoid';
 import User from '../models/users.js';
 import jwt from 'jsonwebtoken';
 
-import generateAvatarUrl from '../utils/helpers/gravatar.js';
+import { generateAvatarUrl } from '../utils/helpers/index.js';
 
-import HttpError from '../utils/helpers/httpErrors.js';
-import ctrlWrapper from '../utils/decorators/ctrlWrapper.js';
+import { HttpError } from '../utils/helpers/index.js';
+import { ctrlWrapper } from '../utils/decorators/index.js';
 import { token } from 'morgan';
 
 dotenv.config();
@@ -20,7 +20,7 @@ const signup = async (req, res) => {
 	if (user) {
 		throw new HttpError(409, 'User with such email already exists');
 	}
-	
+
 	const hashPassword = await bcrypt.hash(password, 10);
 	const verificationToken = nanoid();
 
@@ -61,7 +61,7 @@ const verify = async (req, res) => {
 };
 
 const signin = async (req, res) => {
-	const { email, password} = req.body;
+	const { email, password } = req.body;
 
 	const userIn = await User.findOne({ email });
 	if (!userIn) {
@@ -85,7 +85,7 @@ const signin = async (req, res) => {
 	const user = await User.findByIdAndUpdate(userIn._id, { token });
 
 	res.json({
-		user
+		user,
 	});
 };
 

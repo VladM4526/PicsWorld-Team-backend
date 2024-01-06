@@ -1,9 +1,7 @@
 import { Schema, model } from 'mongoose';
-import {
-	handleMongooseError,
-	preUpdate,
-} from '../utils/helpers/handleMongooseError.js';
+import { handleMongooseError } from '../utils/helpers/index.js';
 
+import { preUpdate } from '../utils/helpers/index.js';
 
 const waterNotesSchema = new Schema(
 	{

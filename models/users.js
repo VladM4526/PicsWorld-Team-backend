@@ -1,9 +1,13 @@
 import { Schema, model } from 'mongoose';
 
-import {
-	handleMongooseError,
-	preUpdate,
-} from '../utils/helpers/handleMongooseError.js';
+import { handleMongooseError } from '../utils/helpers/index.js';
+
+import { preUpdate } from '../utils/helpers/index.js';
+
+// import {
+// 	handleMongooseError,
+// 	preUpdate,
+// } from '../utils/helpers/handleMongooseError.js';
 
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
