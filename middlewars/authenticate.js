@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 
 import User from '../models/users.js';
 
-import HttpError from '../utils/helpers/httpErrors.js';
+import { HttpError } from '../utils/helpers/index.js';
 
 import ctrlWrapper from '../utils/decorators/ctrlWrapper.js';
 
