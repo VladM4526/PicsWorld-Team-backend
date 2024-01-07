@@ -9,19 +9,10 @@ import { monthWaterNotes } from '../servises/index.js';
 const createWaterNote = async (req, res) => {
 	try {
 		const { date, waterVolume } = req.body;
-		const owner = req.user._id;
-
-		const currentDate = new Date();
-
-		const [hours, minutes] = date.split(':');
-
-		currentDate.setHours(Number(hours) + 2, minutes, 0, 0);
-		// const newDate = new Date(date);
-		// newDate.setHours(newDate.getHours() + 2);
-
+		
 		const newWaterNote = await Water.create({
 			...req.body,
-			date: currentDate,
+			date: date,
 			waterVolume: waterVolume,
 			owner: owner,
 		});
@@ -35,17 +26,10 @@ const createWaterNote = async (req, res) => {
 const updateWaterNote = async (req, res) => {
 	try {
 		const { date, waterVolume } = req.body;
-		const ownerId = req.user._id;
-
-		const currentDate = new Date();
-
-		const [hours, minutes] = date.split(':');
-
-		currentDate.setHours(Number(hours) + 2, minutes, 0, 0);
-
+		
 		const updatedWaterNote = await Water.findOneAndUpdate(
 			{ _id: req.params.id, owner: ownerId },
-			{ date: currentDate, waterVolume: waterVolume },
+			{ date: date, waterVolume: waterVolume },
 			{ new: true }
 		);
 
