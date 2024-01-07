@@ -2,11 +2,11 @@ import Water from '../models/water.js';
 
 const todayWaterNotes = async(userId) =>{
     const todayDate = new Date();
-   console.log(todayDate);
+//    console.log(todayDate);
 	const startDay = new Date (todayDate.setHours(0, 0, 0, 0));
-	console.log(startDay);
+	// console.log(startDay);
 	const endDay = new Date (todayDate.setHours(23, 59, 59, 999));
-	console.log(endDay);
+	// console.log(endDay);
 
 	const aggregationList = [
 		{
