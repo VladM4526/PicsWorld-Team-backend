@@ -2,7 +2,7 @@ import Water from '../models/water.js';
 
 const todayWaterNotes = async(userId) =>{
     const todayDate = new Date();
-    todayDate.setHours(todayDate.getHours() + 2);
+    // todayDate.setHours(todayDate.getHours() + 2);
     
 	const startDay = new Date(todayDate.toISOString().slice(0, 10));
 
@@ -70,8 +70,6 @@ const todayWaterNotes = async(userId) =>{
 			waterRecords: 1,
 		  },
 		 },
-		 
-		
 	  ];
 	  
 	return await Water.aggregate(aggregationList);
