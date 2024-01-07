@@ -1,9 +1,9 @@
 import express from 'express';
 
 import authController from '../controllers/authController.js';
-import validateBody from '../utils/decorators/validateBody.js';
+import { validateBody } from '../utils/decorators/index.js';
 import userValidationSchemas from '../utils/validation/userValidationSchemas.js';
-import authenticate from '../middlewars/authenticate.js';
+import { authenticate } from '../middlewars/index.js';
 
 const authRouter = express.Router();
 

@@ -1,12 +1,6 @@
-export const handleMongooseError = (error, data, next) => {
+const handleMongooseError = (error, data, next) => {
 	error.status = 400;
 	next();
 };
 
-export const preUpdate = function (next) {
-	this.options.new = true;
-	this.options.runValidators = true;
-	next();
-};
-
-// export default
+export default handleMongooseError;

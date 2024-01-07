@@ -1,11 +1,11 @@
 import express from 'express';
 
 import usersController from '../controllers/usersController.js';
-import validateBody from '../utils/decorators/validateBody.js';
+import { validateBody } from '../utils/decorators/index.js';
 import userValidationSchemas from '../utils/validation/userValidationSchemas.js';
-import authenticate from '../middlewars/authenticate.js';
+import { authenticate } from '../middlewars/index.js';
 
-import { uploadTmp } from '../middlewars/uploadTmp.js';
+import { uploadTmp } from '../middlewars/index.js';
 
 const usersRouter = express.Router();
 
@@ -20,6 +20,11 @@ usersRouter.patch(
 
 usersRouter.put('/waterrate', authenticate, usersController.waterRate);
 
-usersRouter.patch('/userinfo', authenticate,validateBody(userValidationSchemas.updateSchema), usersController.updateUserInfo);
+usersRouter.patch(
+	'/userinfo',
+	authenticate,
+	validateBody(userValidationSchemas.updateSchema),
+	usersController.updateUserInfo
+);
 
 export default usersRouter;

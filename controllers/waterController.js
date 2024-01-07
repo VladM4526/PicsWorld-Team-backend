@@ -1,12 +1,10 @@
 import Water from '../models/water.js';
-import {
-	handleMongooseError
-} from '../utils/helpers/handleMongooseError.js';
-import HttpError from '../utils/helpers/httpErrors.js';
+import { handleMongooseError } from '../utils/helpers/index.js';
+import { HttpError } from '../utils/helpers/index.js';
 
-import ctrlWrapper from '../utils/decorators/ctrlWrapper.js';
-import todayWaterNotes from '../servises/todayWaterNotes.js';
-import monthWaterNotes from '../servises/monthWaterNotes.js';
+import { ctrlWrapper } from '../utils/decorators/index.js';
+import { todayWaterNotes } from '../servises/index.js';
+import { monthWaterNotes } from '../servises/index.js';
 
 const createWaterNote = async (req, res) => {
 	try {
@@ -19,35 +17,30 @@ const createWaterNote = async (req, res) => {
 			owner:owner
 		 });
 
+
 		res.status(201).json(newWaterNote);
-	}catch (error) {
+	} catch (error) {
 		handleMongooseError(error, res);
 	}
-		
 };
 
 const updateWaterNote = async (req, res) => {
 	try {
 		const { date, waterVolume } = req.body;
-		// const ownerId = req.user._id;
 
-		const currentDate = new Date(date,);
-
-        // const [hours, minutes] = date.split(':');
-
-        // currentDate.setHours(Number(hours) + 2, minutes, 0, 0);
 
 		const updatedWaterNote = await Water.findOneAndUpdate(
 			{ _id: req.params.id, 
 				// owner: ownerId, 
-				date: currentDate, 
+				date: Date, 
 				waterVolume:waterVolume,
 				new: true 
 			}
+
 		);
 
 		if (!updatedWaterNote) {
-			throw new HttpError(404,'Water note not found');
+			throw new HttpError(404, 'Water note not found');
 		}
 
 		res.json(updatedWaterNote);
@@ -66,7 +59,7 @@ const deleteWaterNote = async (req, res) => {
 		});
 
 		if (!deletedWaterNote) {
-			throw new HttpError (404, 'Water note not found');
+			throw new HttpError(404, 'Water note not found');
 		}
 
 		res.json({
@@ -77,22 +70,21 @@ const deleteWaterNote = async (req, res) => {
 	}
 };
 
-const todayWater = async(req, res) => {
+const todayWater = async (req, res) => {
 	const result = await todayWaterNotes(req.user._id);
-
 	res.json(result)
 };
 
-const monthWater = async(req, res) => {
-	const result = await monthWaterNotes(req.user._id, req.params.month)
+const monthWater = async (req, res) => {
+	const result = await monthWaterNotes(req.user._id, req.params.month);
 
-	res.json(result)
-}
+	res.json(result);
+};
 
 export default {
 	createWaterNote: ctrlWrapper(createWaterNote),
 	updateWaterNote: ctrlWrapper(updateWaterNote),
 	deleteWaterNote: ctrlWrapper(deleteWaterNote),
 	todayWater: ctrlWrapper(todayWater),
-	monthWater: ctrlWrapper(monthWater)
+	monthWater: ctrlWrapper(monthWater),
 };
