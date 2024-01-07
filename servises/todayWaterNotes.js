@@ -2,15 +2,17 @@ import Water from '../models/water.js';
 
 const todayWaterNotes = async(userId) =>{
     const todayDate = new Date();
-    todayDate.setHours(todayDate.getHours() + 2);
-	const startDay = new Date(todayDate.toISOString().slice(0, 10));
+   
+	const startDay = new Date (todayDate.setHours(0, 0, 0, 0));
+	const endDay = new Date (todayDate.setHours(23, 59, 59, 999));
+
 	const aggregationList = [
 		{
 			$match: {
 				owner: userId,
 				date: {
 					$gte: startDay,
-					$lt: new Date(startDay.getTime() + 24 * 60 * 60 * 1000)
+					$lt: endDay
 				}
 			}
 		},
@@ -36,22 +38,22 @@ const todayWaterNotes = async(userId) =>{
 					$push: {
 					  _id: "$_id",
 					  waterVolume: "$waterVolume",
-					  time: { $dateToString: { format: "%H:%M", date: "$date" } },
+					  date: "$date",
 					},
 				  },
 				
 			}
 		},
-		{
-			$sort: {
-				"waterRecords.time": 1
-			}
-		  },
+		// {
+		// 	$sort: {
+		// 		"waterRecords.date": 1
+		// 	}
+		//   },
 		{
 			$project: {
 			_id: 0,
-			userId: 1,
-			waterRate: 1,
+			// userId: 1,
+			// waterRate: 1,
 			percentage: { $concat: [
 				{  $toString: {
 					$round: [  
@@ -68,6 +70,14 @@ const todayWaterNotes = async(userId) =>{
 			waterRecords: 1,
 		  },
 		 },
+		 {
+            $replaceRoot: {
+                newRoot: {
+                    percentage: "$percentage",
+                    waterRecords: "$waterRecords"
+                }
+            }
+        }
 	  ];
 	  
 	return await Water.aggregate(aggregationList);

@@ -9,13 +9,13 @@ import { monthWaterNotes } from '../servises/index.js';
 const createWaterNote = async (req, res) => {
 	try {
 		const { date, waterVolume } = req.body;
-		
-		const newWaterNote = await Water.create({
+		const owner = req.user._id;
+		const newWaterNote = await Water.create({ 
 			...req.body,
-			date: date,
-			waterVolume: waterVolume,
-			owner: owner,
-		});
+			date:date, 
+			waterVolume:waterVolume, 
+			owner:owner
+		 });
 
 		res.status(201).json(newWaterNote);
 	} catch (error) {
@@ -26,11 +26,13 @@ const createWaterNote = async (req, res) => {
 const updateWaterNote = async (req, res) => {
 	try {
 		const { date, waterVolume } = req.body;
-		
 		const updatedWaterNote = await Water.findOneAndUpdate(
-			{ _id: req.params.id, owner: ownerId },
-			{ date: date, waterVolume: waterVolume },
-			{ new: true }
+			{ _id: req.params.id, 
+				// owner: ownerId, 
+				date: Date, 
+				waterVolume:waterVolume,
+				new: true 
+			}
 		);
 
 		if (!updatedWaterNote) {
@@ -66,8 +68,7 @@ const deleteWaterNote = async (req, res) => {
 
 const todayWater = async (req, res) => {
 	const result = await todayWaterNotes(req.user._id);
-
-	res.json(result);
+	res.json(result)
 };
 
 const monthWater = async (req, res) => {
