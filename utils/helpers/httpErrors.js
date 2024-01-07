@@ -1,6 +1,6 @@
 import HttpErrorMessages from '../../const/httpErrorMessages.js';
 
-class HttpError extends Error {
+export default class HttpError extends Error {
 	constructor(
 		statusCode = 500,
 		message = HttpErrorMessages[statusCode] || HttpErrorMessages.default
@@ -10,4 +10,4 @@ class HttpError extends Error {
 	}
 }
 
-export default HttpError;
+// export default HttpError;

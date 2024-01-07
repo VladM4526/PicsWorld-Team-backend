@@ -829,7 +829,7 @@
 					"date": {
 						"type": "string",
 						"description": "Date of water note creation",
-						"example": "2023-12-12 12:12"
+						"example": "12:12"
 					}
 				}
 			},
@@ -869,7 +869,7 @@
 					"date": {
 						"type": "string",
 						"description": "Date of water note updating",
-						"example": "2023-12-13 12:13"
+						"example": "12:13"
 					}
 				}
 			},
@@ -910,7 +910,8 @@
 						},
 						"waterRate": {
 							"type": "integer",
-							"description": "User`s water rate"
+							"description": "User`s water rate",
+							"example": 250
 						},
 						"waterRecords": {
 							"type": "array",
@@ -922,11 +923,6 @@
 										"description": "objectId",
 										"example": "9578a252-1d7a-4fcc-82e2-d1a528dd3d0c"
 									},
-									"date": {
-										"type": "string",
-										"description": "Date of water note creation",
-										"example": "2023-12-12 12:12"
-									},
 									"waterVolume": {
 										"type": "integer",
 										"description": "The volume of water",
@@ -937,60 +933,18 @@
 										"description": "The owner identification",
 										"example": "65904053bb27f687079e5093"
 									},
-									"user": {
-										"type": "object",
-										"properties": {
-											"id": {
-												"type": "string",
-												"description": "User`s id",
-												"example": "9578a252-1d7a-4fcc-82e2-d1a528dd3d0c"
-											},
-											"name": {
-												"type": "string",
-												"description": "User`s name",
-												"maxLength": "32"
-											},
-											"email": {
-												"type": "string",
-												"description": "User`s email",
-												"format": "email"
-											},
-											"password": {
-												"type": "string",
-												"description": "User`s password",
-												"example": "abcde123",
-												"minLength": "8",
-												"maxLength": "64"
-											},
-											"gender": {
-												"type": "string",
-												"description": "User`s gender"
-											},
-											"waterRate": {
-												"type": "integer",
-												"description": "User`s water rate"
-											},
-											"verify": {
-												"type": "boolean",
-												"description": "verification"
-											},
-											"verificationToken": {
-												"type": "string",
-												"description": "verificationToken"
-											},
-											"avatarURL": {
-												"type": "string",
-												"description": "User`s avatar",
-												"example": "http://www.cloudinary.com/avatar.png"
-											},
-											"token": {
-												"type": "string",
-												"example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzaWQiOiIyOWI4ZmZmNS0xN2NjLTQ5NTYtOTViZC1jN2U3N2FkZDEwOWEiLCJpYXQiOjE2ODE4OTM3MzEsImV4cCI6MTAwMDAwMDE2ODE4OTM3MzJ9.hQpNKIj4SR7Gm9waUMn7hzwKQyqwKrniL_qSW"
-											}
-										}
+									"time": {
+										"type": "string",
+										"description": "the time note was created",
+										"example": "11:00"
 									}
 								}
 							}
+						},
+						"percentage": {
+							"type": "string",
+							"description": "water trinkt to daily water rate",
+							"example": "10%"
 						}
 					}
 				}

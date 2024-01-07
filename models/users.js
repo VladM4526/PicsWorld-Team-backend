@@ -1,9 +1,13 @@
 import { Schema, model } from 'mongoose';
 
-import {
-	handleMongooseError,
-	preUpdate,
-} from '../utils/helpers/handleMongooseError.js';
+import { handleMongooseError } from '../utils/helpers/index.js';
+
+import { preUpdate } from '../utils/helpers/index.js';
+
+// import {
+// 	handleMongooseError,
+// 	preUpdate,
+// } from '../utils/helpers/handleMongooseError.js';
 
 const emailRegexp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
@@ -33,7 +37,7 @@ const userSchema = new Schema(
 		},
 		waterRate: {
 			type: Number,
-			required: [true, 'Set rate'],
+			// required: [true, 'Set rate'],
 			min: 0,
 			max: 15000,
 			default: 0,
