@@ -21,6 +21,8 @@ const createWaterNote = async (req, res) => {
 		// const newDate = new Date(date);
         // newDate.setHours(newDate.getHours() + 2);
 
+		// console.log(currentDate);
+
 		const newWaterNote = await Water.create({ 
 			...req.body,
 			date:currentDate, 
@@ -85,6 +87,8 @@ const deleteWaterNote = async (req, res) => {
 
 const todayWater = async(req, res) => {
 	const result = await todayWaterNotes(req.user._id);
+
+	// return result.length ? result : [{ waterRecords: [], percentage: '0%' }];
 
 	res.json(result)
 };

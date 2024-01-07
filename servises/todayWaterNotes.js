@@ -2,10 +2,8 @@ import Water from '../models/water.js';
 
 const todayWaterNotes = async(userId) =>{
     const todayDate = new Date();
-    // todayDate.setHours(todayDate.getHours() + 2);
-    
+    todayDate.setHours(todayDate.getHours() + 2);
 	const startDay = new Date(todayDate.toISOString().slice(0, 10));
-
 	const aggregationList = [
 		{
 			$match: {
@@ -58,7 +56,7 @@ const todayWaterNotes = async(userId) =>{
 				{  $toString: {
 					$round: [  
 						{
-						 $multiply: [ { $divide: ["$totalWaterVolume", "$waterRate"] }, 100,	],
+						 $multiply: [ { $divide: ["$totalWaterVolume", "$waterRate"] }, 100,],
 					 	 },
 					  0,
 					],
