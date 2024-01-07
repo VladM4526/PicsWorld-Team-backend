@@ -12,20 +12,9 @@ const createWaterNote = async (req, res) => {
 	try {
 		const { date, waterVolume } = req.body;
 		const owner = req.user._id;
-
-		const currentDate = new Date();
-
-        const [hours, minutes] = date.split(':');
-
-        currentDate.setHours(Number(hours) + 2, minutes, 0, 0);
-		// const newDate = new Date(date);
-        // newDate.setHours(newDate.getHours() + 2);
-
-		// console.log(currentDate);
-
 		const newWaterNote = await Water.create({ 
 			...req.body,
-			date:currentDate, 
+			date:date, 
 			waterVolume:waterVolume, 
 			owner:owner
 		 });
@@ -40,18 +29,21 @@ const createWaterNote = async (req, res) => {
 const updateWaterNote = async (req, res) => {
 	try {
 		const { date, waterVolume } = req.body;
-		const ownerId = req.user._id;
+		// const ownerId = req.user._id;
 
-		const currentDate = new Date();
+		const currentDate = new Date(date,);
 
-        const [hours, minutes] = date.split(':');
+        // const [hours, minutes] = date.split(':');
 
-        currentDate.setHours(Number(hours) + 2, minutes, 0, 0);
+        // currentDate.setHours(Number(hours) + 2, minutes, 0, 0);
 
 		const updatedWaterNote = await Water.findOneAndUpdate(
-			{ _id: req.params.id, owner: ownerId },
-			{ date: currentDate, waterVolume:waterVolume },
-			{ new: true }
+			{ _id: req.params.id, 
+				// owner: ownerId, 
+				date: currentDate, 
+				waterVolume:waterVolume,
+				new: true 
+			}
 		);
 
 		if (!updatedWaterNote) {
@@ -87,8 +79,6 @@ const deleteWaterNote = async (req, res) => {
 
 const todayWater = async(req, res) => {
 	const result = await todayWaterNotes(req.user._id);
-
-	// return result.length ? result : [{ waterRecords: [], percentage: '0%' }];
 
 	res.json(result)
 };
