@@ -17,7 +17,7 @@ waterRouter.post(
 waterRouter.patch(
 	'/update/:id',
 	authenticate,
-	validateBody(waterValidationSchemas.waterSchema),
+	validateBody(waterValidationSchemas.waterUpdateSchema),
 	waterController.updateWaterNote
 );
 

@@ -15,15 +15,12 @@ const userSchema = new Schema(
   {
     name: {
       type: String,
-      // required: [true, 'Name is required'],
       maxLength: 32,
-      default: "V",
     },
     email: {
       type: String,
       match: emailRegexp,
       required: [true, "Email is required"],
-      // unique: true,
     },
     password: {
       type: String,
@@ -34,11 +31,9 @@ const userSchema = new Schema(
     gender: {
       type: String,
       enum: ["male", "female"],
-      //   default: "mail"
     },
     waterRate: {
       type: Number,
-      // required: [true, 'Set rate'],
       min: 0,
       max: 15000,
       default: 0,
