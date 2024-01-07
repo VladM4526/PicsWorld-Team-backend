@@ -17,7 +17,6 @@ const createWaterNote = async (req, res) => {
 			owner:owner
 		 });
 
-
 		res.status(201).json(newWaterNote);
 	} catch (error) {
 		handleMongooseError(error, res);
@@ -27,8 +26,6 @@ const createWaterNote = async (req, res) => {
 const updateWaterNote = async (req, res) => {
 	try {
 		const { date, waterVolume } = req.body;
-
-
 		const updatedWaterNote = await Water.findOneAndUpdate(
 			{ _id: req.params.id, 
 				// owner: ownerId, 
@@ -36,7 +33,6 @@ const updateWaterNote = async (req, res) => {
 				waterVolume:waterVolume,
 				new: true 
 			}
-
 		);
 
 		if (!updatedWaterNote) {
