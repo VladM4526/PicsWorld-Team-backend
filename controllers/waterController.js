@@ -26,19 +26,15 @@ const createWaterNote = async (req, res) => {
 const updateWaterNote = async (req, res) => {
 	try {
 		const { date, waterVolume } = req.body;
+		const ownerId = req.user._id;
 		const updatedWaterNote = await Water.findOneAndUpdate(
-			{ _id: req.params.id, 
-				// owner: ownerId, 
-				date: Date, 
-				waterVolume:waterVolume,
-				new: true 
-			}
+			{ _id: req.params.id, owner: ownerId },
+			{ date, waterVolume },
+			{ new: true }
 		);
-
 		if (!updatedWaterNote) {
-			throw new HttpError(404, 'Water note not found');
+			return res.status(404).json({ message: 'Water note not found' });
 		}
-
 		res.json(updatedWaterNote);
 	} catch (error) {
 		handleMongooseError(error, res);
