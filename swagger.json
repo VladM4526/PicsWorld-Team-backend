@@ -371,10 +371,10 @@
 				"parameters": [
 					{
 						"in": "path",
-						"name": "objectId",
+						"name": "id",
 						"required": "true",
 						"type": "string",
-						"description": "objectId"
+						"description": "Water`s note id"
 					}
 				],
 				"security": [{ "bearer": [] }],
@@ -416,14 +416,14 @@
 		"/api/water/delete/{id}": {
 			"delete": {
 				"tags": ["Water"],
-				"summary": "Delete Water Note",
+				"summary": "Delete water note",
 				"parameters": [
 					{
 						"in": "path",
-						"name": "objectId",
+						"name": "id",
 						"required": "true",
 						"type": "string",
-						"description": "objectId"
+						"description": "Water`s note id"
 					}
 				],
 				"security": [{ "bearer": [] }],
@@ -583,33 +583,31 @@
 								"description": "User`s email",
 								"format": "email"
 							},
-							"password": {
-								"type": "string",
-								"description": "User`s password",
-								"example": "abcde123",
-								"minLength": "8",
-								"maxLength": "64"
-							},
+
 							"gender": {
 								"type": "string",
 								"description": "User`s gender"
 							},
 							"waterRate": {
 								"type": "integer",
-								"description": "User`s water rate"
+								"description": "User`s water rate",
+								"example": "0"
 							},
-							"verify": {
-								"type": "boolean",
-								"description": "verification"
-							},
-							"verificationToken": {
-								"type": "string",
-								"description": "verificationToken"
-							},
+
 							"avatarURL": {
 								"type": "string",
 								"description": "User`s avatar",
 								"example": "http://www.cloudinary.com/avatar.png"
+							},
+							"createdAt": {
+								"type": "string",
+								"description": "Creation time",
+								"example": "2024-01-07T17:09:32.518Z"
+							},
+							"updatedAt": {
+								"type": "string",
+								"description": "Update time",
+								"example": "2024-01-07T17:17:33.556Z"
 							},
 							"token": {
 								"type": "string",
@@ -726,7 +724,7 @@
 					},
 					"gender": {
 						"type": "string",
-						"description": "Male / Female"
+						"description": "male / female"
 					},
 					"currentPassword": {
 						"type": "string",

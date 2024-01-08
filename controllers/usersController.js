@@ -5,6 +5,7 @@ import User from '../models/users.js';
 
 import fs from 'fs/promises';
 import { HttpError } from '../utils/helpers/index.js';
+import multer from 'multer';
 
 import { cloudinary } from '../utils/helpers/index.js';
 
