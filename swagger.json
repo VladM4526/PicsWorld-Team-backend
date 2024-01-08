@@ -165,7 +165,7 @@
 			}
 		},
 		"/api/auth/signout": {
-			"delete": {
+			"post": {
 				"tags": ["Auth"],
 				"summary": "Signout from account",
 				"parameters": [],
