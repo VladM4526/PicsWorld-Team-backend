@@ -1,12 +1,24 @@
 import Water from '../models/water.js';
 
 const todayWaterNotes = async(userId) =>{
-    const todayDate = new Date();
-//    console.log(todayDate);
-	const startDay = new Date (todayDate.setHours(0, 0, 0, 0));
-	// console.log(startDay);
-	const endDay = new Date (todayDate.setHours(23, 59, 59, 999));
-	// console.log(endDay);
+//     const todayDate = new Date();
+// //    console.log(todayDate);
+// 	const startDay = new Date (todayDate.setHours(0, 0, 0, 0));
+// 	// console.log(startDay);
+// 	const endDay = new Date (todayDate.setHours(23, 59, 59, 999));
+// 	// console.log(endDay);
+
+
+	const todayDate = new Date();
+	const hours = Number(todayDate.getHours());
+	todayDate.setUTCHours(hours, 0, 0, 0);
+
+	const currentDate = new Date(todayDate);
+
+	currentDate.setUTCHours(0, 0, 0, 0);
+	const startDay = new Date(currentDate.toISOString());
+	currentDate.setUTCHours(23, 59, 59, 999);
+	const endDay = new Date(currentDate.toISOString());
 
 	const aggregationList = [
 		{
