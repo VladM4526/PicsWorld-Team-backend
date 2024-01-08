@@ -33,7 +33,7 @@ const signup = async (req, res) => {
 		name: null,
 		gender: null,
 		email: email,
-		waterRate: null,
+		waterRate: 0,
 		password: hashPassword,
 		verificationToken,
 		avatarURL: avatar,
