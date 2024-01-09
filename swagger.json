@@ -827,7 +827,7 @@
 					"date": {
 						"type": "string",
 						"description": "Date of water note creation",
-						"example": "12:12"
+						"example": "2024-01-03T16:44:36.132Z"
 					}
 				}
 			},
