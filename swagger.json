@@ -726,7 +726,7 @@
 						"type": "string",
 						"description": "male / female"
 					},
-					"currentPassword": {
+					"oldPassword": {
 						"type": "string",
 						"description": "User`s current password",
 						"example": "abcde123",
